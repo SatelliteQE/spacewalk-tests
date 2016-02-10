@@ -1,0 +1,26 @@
+# Q: How can I use this rpm in my test?
+
+    * (1) Add requires into your Makefile
+@echo "RhtsRequires: test(/CoreOS/Spacewalk/Helper)" >> $(METADATA)
+    * (2) Add sourcing to your runtest.sh
+rlRun "/mnt/tests/CoreOS/Spacewalk/Helper/runtest.sh"
+    * (3) Now you can remove all other dependencies from your Makefile. 
+
+# Q: How can I push changes in my helper*/manage* script to beaker?
+
+    * (1) Edit your script in tests/Spacewalk
+    * (2) $ git commit
+    * (3) $ cd tests/Spacewalk/Helper and:
+    * (4) In case you have just ADDED NEW helper*/manage* script edit tests/Spacewalk/Helper/Makefile
+    * (5) make clean 
+    * (6) cvs up
+    * (7) make tag # this is not needed everytime .... 
+    * (8) make bkradd 
+
+# Q: What is the difference between this helper and Spacewalk/Helper?
+
+	This is a fork of a Satellite Helper created when a decision was made to remove entitlements
+	from the Spacewalk. it means Spacewalk and Satellite are going to be more different than before
+	and it makes sense to have a helper for each.
+	This helper is just a copy of the original Spacewalk helper and might contain Satellite-incompatible
+	code. It will only be updated when we encounter a buggy behavior.
