@@ -133,14 +133,6 @@ else # non-RHEL7
 [[ $# == 6 ]] && [[ -n $AK ]] && [[ -n $SERVER ]] && [[ -n $PROFILE ]]  && VARIANT=2 # Satellite or Hosted with AK
 [[ $# == 4 ]] && [[ -n $SERVER ]]  && [[ -n $PROFILE ]]  && VARIANT=3  # Hosted with AK
 
-# WORKAROUND for bug 761489 >>>
-bz761489=false
-if ! workaround-bz761489-needed.sh; then
-  bz761489=true
-  echo "WARNING: Using workaround for bug 761489 (will disable 'exit immediately' for registration)"
-fi
-# <<<
-
 function download() {
   # $1 ... from url
   # $2 ... to file
@@ -205,10 +197,7 @@ while true; do
        -e 'Connection timed out on readline' \
        -e '^Proxy Error$'; then
     echo "WARNING: Registration against Hosted failed, but we expect this kind of error, so trying again"
-  elif $bz761489; then
-    echo "INFO: Registration failed but without safe error message. But workaround for bug 761489 is enabled, so most probably it was OK and we can just go on."
-    break
-  else
+ else
     echo "ERROR: Registration failed with unexpected error"
     echo "DEBUG: Showing output of rhnreg_ks:"
     cat $attempt_log

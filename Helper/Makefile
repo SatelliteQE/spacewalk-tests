@@ -85,7 +85,6 @@ LOCAL_BASH_SCRIPTS=rpm_verify_lib.sh \
                spacewalk_logs.sh \
                helper-get-distro-name.sh \
                get_rhel_kickstart_name.sh \
-               workaround-bz761489-needed.sh \
                helper-install-with-support-repos.sh \
                helper-reg-fake-host-guest.py \
                helper-tcpdump-external.sh \
