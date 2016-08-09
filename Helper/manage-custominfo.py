@@ -7,12 +7,14 @@
 # manage-custominfo.py admin nimda https://`hostname`/rpc/api CREATE_KEY keyLabel keyDescr
 # manage-custominfo.py admin nimda https://`hostname`/rpc/api DELETE_KEY keyLabel
 # manage-custominfo.py admin nimda https://`hostname`/rpc/api LIST_ALL_KEYS
-# manage-custominfo.py admin nimda https://`hostname`/rpc/api UPDATE_KEY keyLabel keyDescr
+# manage-custominfo.py admin nimda https://`hostname`/rpc/api UPDATE_KEY
+# keyLabel keyDescr
 
 from __future__ import print_function
 
 import sys
 from spacewalk_api import Spacewalk
+
 
 class CustomInfo(Spacewalk):
     """

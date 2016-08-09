@@ -12,7 +12,7 @@ class BeakerEnv:
     @staticmethod
     def testname():
         name = os.environ.get("TESTVERSION")
-        return ('', name)[name!=None]
+        return ('', name)[name != None]
 
     @staticmethod
     def recipeid():

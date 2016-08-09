@@ -49,5 +49,3 @@ class Search(Spacewalk):
 if __name__ == "__main__":
     main = Events(*sys.argv[1:])
     sys.exit(abs(main.run() - 1))
-
-

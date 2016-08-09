@@ -11,6 +11,7 @@
 #     Martin Minar <mminar@redhat.com>
 #     Dimitar Yordanov <dyordano@redhat.com>
 #     Jiri Kastner <jkastner@redhat.com>
+#     Pavel Studenik <pstudeni@redhat.com>
 #     Lukas Hellebrandt <lhellebr@redhat.com>
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -67,7 +68,6 @@ LOCAL_PY_SCRIPTS=manage-ak.py \
                taskomatic_runs.py \
                http_client.py \
                quartz_reinitialize.py \
-               workaround_bz714085.py \
                helper-csv-if-x-is-y-print-z.py \
                getApiVersion.py \
                helper-http.py

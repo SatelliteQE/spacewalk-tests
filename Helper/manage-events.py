@@ -34,6 +34,7 @@ class Events(Spacewalk):
 
     Namespace: system
     """
+
     def list_system_events(self, *argv):
         for item in self.call("system.listSystemEvents", *argv):
             print(item)
