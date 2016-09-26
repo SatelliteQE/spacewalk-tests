@@ -1,14 +1,17 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
+# author: Pavel Studeník <pstudeni@redhat.com>
+# year: 2016
+
 # Examples:
 # manage-ak.py admin admin https://`hostname`/rpc/api CREATE my_channel True True
 #   Prints new activation key created with this options:
 #     * base channel is 'my_channel'
 #     * entitlement is set to True meaning virtualization_host (False would be none), virtualization_host is the only entitlement in SW
 #     * key will be universal default because last option is 'True'
-# manage-ak.py ${SAT_USER}  ${SAT_PASS} https://${RHN_PARENT_SERVER_TAG}/rpc/api ADD_CHILD_CHANNELS $CHILD_CHANN  $ACTIVE_KEY
-# manage-ak.py ${SAT_USER}  ${SAT_PASS} https://${RHN_PARENT_SERVER_TAG}/rpc/api CREATE $BASE_CHANNEL True True
+# manage-ak.py ${SAT_USER} ${SAT_PASS} https://${RHN_PARENT_SERVER_TAG}/rpc/api ADD_CHILD_CHANNELS $CHILD_CHANN $ACTIVE_KEY
+# manage-ak.py ${SAT_USER} ${SAT_PASS} https://${RHN_PARENT_SERVER_TAG}/rpc/api CREATE $BASE_CHANNEL True True
 # manage-ak.py ${RHN_USER} ${RHN_PASS} https://${RHN_SERVER}/rpc/api CREATE_WITH_DEFAULT_CHANNEL False True
 
 import sys
@@ -18,7 +21,7 @@ from spacewalk_api import BeakerEnv
 
 class ActivationKey(Spacewalk):
     """
-
+    Contains methods to access common activation key functions available from the web interface.
     """
 
     def check_channel_exists(self, label):
@@ -39,6 +42,13 @@ class ActivationKey(Spacewalk):
         return False
 
     def create(self, channel, ent="0", default=False):
+        """
+        Create a new activation key. The activation key parameter passed in will be prefixed with the organization ID,
+        and this value will be returned from the create call. Eg. If the caller passes in the key "foo" and belong to
+        an organization with the ID 100, the actual activation key will be "100-foo". This call allows for the setting
+        of a usage limit on this activation key. If unlimited usage is desired see the similarly named API method with
+        no usage limit argument.
+        """
         def entitlements(code):
             if code == "1":
                 return ["virtualization_host", ]
@@ -56,6 +66,9 @@ class ActivationKey(Spacewalk):
         return self.create(label, "", ent, default=True)
 
     def list(self):
+        """
+        List activation keys that are visible to the user.
+        """
         keys = self.call("activationkey.listActivationKeys")
         for ak in keys:
             print "%s|%s|%s|%s" % (ak['key'], ak['base_channel_label'], ak['entitlements'], ak['universal_default'])
