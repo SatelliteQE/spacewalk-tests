@@ -25,6 +25,14 @@ class BeakerEnv:
 
 class Spacewalk:
 
+    @staticmethod
+    def parse_bool(code_string):
+        # Parse string like '1' to boolean like True
+        if code_string in ('1', 'true', 'True', 'yes', 'Yes'):
+            return True
+        else:
+            return False
+
     def __init__(self, username=None, password=None, hostname=None, *argv):
 
         if hostname.startswith("http://") or hostname.startswith("https://"):
@@ -44,16 +52,22 @@ class Spacewalk:
 
     def call(self, method, *args):
         conv_params = []
+        method_all = False
 
         m = ".".join(method.split(".")[:-1])
         methods = self.client.api.getApiNamespaceCallList(self.key, m)
 
         for key, it in methods.items():
             if key.startswith(method):
+                method_all = key
                 params = it["parameters"][1:]
                 logging.debug("# %s %s" % (method, params))
                 if len(args) == len(params):
                     break
+        if not method_all:
+            print("All methods: ", [it[0] for it in methods.items()])
+            raise Exception("method %s doesn't exist" % method)
+            return
 
         for value, convert in zip(args, params):
             logging.debug("# \t %s -> %s" % (value, convert))
@@ -64,6 +78,7 @@ class Spacewalk:
         fce = getattr(self.client, method)
         self.output = fce(self.key, *conv_params)
         return self.output
+
 
     def stdOut(self):
         def _print(data):
@@ -82,6 +97,10 @@ class Spacewalk:
         if hasattr(self, "key"):
             self.client.auth.logout(self.key)
 
+    def test(self):
+        print "client.api.getVersion(): %s" % self.client.api.getVersion()
+        print "client.api.systemVersion(): %s" % self.client.api.systemVersion()
+        return 1
 
 if __name__ == "__main__":
     s = Spacewalk(sys.argv[1], sys.argv[2], sys.argv[3])
