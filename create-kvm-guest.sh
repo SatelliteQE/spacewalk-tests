@@ -1,5 +1,5 @@
 
-dnf install -y virt-install 
+dnf install -y virt-install virt-viewer
 virt-install \
    --name=fedora-spacewalk \
    --disk path=/var/lib/libvirt/images/fedora-guest-1.dsk,size=8,sparse=false,cache=none \
