@@ -47,6 +47,6 @@ rpm --import https://beaker-project.org/gpg/RPM-GPG-KEY-beaker-project
 dnf config-manager --add-repo https://beaker-project.org/yum/client/Fedora24
 dnf install -y git rhts-test-env beakerlib --nogpgcheck
 mkdir -p /mnt/tests/CoreOS
-cd /mnt/tests/CoreOS && git clone https://github.com/SatelliteQE/spacewalk-tests.git spacewalk
+cd /mnt/tests/CoreOS && git clone https://github.com/SatelliteQE/spacewalk-tests.git Spacewalk
 
 %end

@@ -25,5 +25,11 @@ rlJournalPrintText
 rlJournalEnd
 ```
 
+Example structure of test you find in dir /mnt/tests/CoreOS/Spacewalk/Others/Example
+and for command for run chosed test looks folowing:
+
+```
+make -C /mnt/tests/CoreOS/Spacewalk/Others/Example
+```
 
 [1] https://beaker-project.org/docs/user-guide/example-task.html
