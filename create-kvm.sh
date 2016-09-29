@@ -5,8 +5,8 @@ virt-install \
    --disk path=/var/lib/libvirt/images/fedora-guest-1.dsk,size=8,sparse=false,cache=none \
    --graphics spice \
    --vcpus=2 --ram=2048 \
-   --location=http://download.eng.brq.redhat.com/pub/fedora/linux/releases/24/Server/x86_64/os/ \
+   --location=http://download.eng.brq.redhat.com/pub/fedora/linux/releases/24/Server/x86_64/os \
    --network network:default \
-    -x "ks=http://elisha.brq.redhat.com/cblr/svc/op/ks/profile/example-2:1:RedHatSatTeamQA" \
+    -x "ks=https://raw.githubusercontent.com/SatelliteQE/spacewalk-tests/master/fedora.ks" \
    --os-type=linux \
    --os-variant=rhel6
