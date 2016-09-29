@@ -18,27 +18,32 @@ class Search(Spacewalk):
         pkgs = self.call("packages.search.name", *argv)
         for pkg in pkgs:
             print pkg
+        return True
 
     def package_by_name_and_description(self, *argv):
         pkgs = self.call("system.search.nameAndDescription", *argv)
         for pkg in pkgs:
             print pkg
+        return True
 
     def package_by_name_and_summary(self, *argv):
         pkgs = self.call("packages.search.nameAndSummary", *argv)
         for pkg in pkgs:
             print pkg
+        return True
 
     def package_advanced(self, *argv):
         pkgs = self.call("packages.search.advanced", *argv)
         for pkg in pkgs:
             print pkg
+        return True
 
     def package_advanced_with_channel(self, string, addon):
         assert len(addon) > 0
         pkgs = self.all("packages.search.advancedwithchannel", string, addon)
         for pkg in pkgs:
             print pkg
+        return True
 
     def run(self):
         method = self.getMethod()
@@ -47,5 +52,5 @@ class Search(Spacewalk):
 
 
 if __name__ == "__main__":
-    main = Events(*sys.argv[1:])
+    main = Search(*sys.argv[1:])
     sys.exit(abs(main.run() - 1))
