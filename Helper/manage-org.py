@@ -115,12 +115,12 @@ class Organization(Spacewalk):
         system_id = int(org)
         org_to = int(org_admin)
         # returns array of servers migrated
-        ret = self.call("org.migrateSystems"(org_to, (system_id,))
+        ret = self.call("org.migrateSystems"(org_to, (system_id,)))
         print ret
         return len(ret) - 1
 
     def get_mine_org_id(self, user):
-        ret=self.call("user.getDetails"(user)
+        ret=self.call("user.getDetails"(user))
         print ret['org_id']
         return 0
 
