@@ -4,9 +4,11 @@ Tests for Spacewalk. Let's do open source tests for open source software!
 
 ## Creating VM to run the tests
 
-To create testing envroment just create following script as root. Script creates KVM guest with Fedora OS on your system so tests can run in oredefined environment and would not disturb your workstation setup.
+To create testing envroment just create following script as root. Script creates KVM guest with Fedora OS on your system so tests can run in oredefined environment and would not disturb your workstation setup. It is possible to define version of Fedora for installation by use variable "$release".
 
 ```
+# default version of Fedora is set 24
+# export release=23
 sudo ./create-kvm-guest.sh
 ```
 
