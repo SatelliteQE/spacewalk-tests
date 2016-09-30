@@ -13,7 +13,7 @@ rm -f rpmfluff.py
 count=10
 atempt=0
 while [ $atempt -lt $count ]; do
-  wget  --quiet  --output-document=rpmfluff.py 'https://git.fedorahosted.org/cgit/rpmfluff.git/plain/rpmfluff.py?id=956609fdb7ffe539128f13dba80480728ea913fe'   # later commints brings RHEL5 incompability
+  wget  --quiet  --output-document=rpmfluff.py 'https://pagure.io/rpmfluff/raw/956609fdb7ffe539128f13dba80480728ea913fe/f/rpmfluff.py'   # later commints brings RHEL5 incompability
   rc=$?
   head -n 1 rpmfluff.py | grep -q -- '-\*- coding: UTF-8 -\*-' \
     && python -c "import rpmfluff" \
