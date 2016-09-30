@@ -10,6 +10,8 @@ To create testing envroment just create following script as root. Script creates
 sudo ./create-kvm-guest.sh
 ```
 
+Resulting guest *fedora-spacewalk* should have 2GB RAM, its IP should be in `config/hosts.ini`, roots password should be *spacewalk* and system should have `config/id_rsa.pub` in `/root/.ssh/authorized_keys` (private key is `config/id_rsa`).
+
 ## How the Beaker test looks like
 
 Example how to test looks[1]:
