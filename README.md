@@ -57,4 +57,13 @@ If you have Ansible installed, you can run:
 ansible-playbook --private-key config/id_rsa -i config/hosts.ini tests.yaml --extra-vars="test=/CoreOS/Spacewalk/Others/Example"
 ```
 
+### Via Fabfric
+
+Or if you like use Fabric and it is isntalled, you can run:
+
+```
+fab run_test:test_name=/CoreOS/Spacewalk/Others/Example"
+```
+
+
 [1] https://beaker-project.org/docs/user-guide/example-task.html
