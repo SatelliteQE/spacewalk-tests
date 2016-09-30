@@ -1,0 +1,21 @@
+---
+- hosts: all
+  remote_user: root
+  ###gather_facts: no
+  tasks:
+    - name: "Update git repository"
+      shell: |
+        cd /mnt/tests/CoreOS/Spacewalk
+        git pull
+
+    - name: "Example test"
+      command:
+        make run -C /mnt/tests/CoreOS/Spacewalk/Others/Example/
+      register: test
+    - name: "Example test stdout"
+      debug:
+        msg: "{{ test.stdout.split('\n') }}"
+    - name: "Example test stderr"
+      debug:
+        msg: "{{ test.stderr.split('\n') }}"
+...
