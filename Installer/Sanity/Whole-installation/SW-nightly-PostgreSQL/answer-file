@@ -1,0 +1,16 @@
+db-host = localhost
+db-name = spaceschema
+db-user = spaceuser
+db-password = spacepw
+db-port = 5432
+admin-email = root@localhost
+ssl-set-org = Spacewalk
+ssl-set-org-unit = Spacewalk
+ssl-set-city = City
+ssl-set-state = State
+ssl-set-country = US
+ssl-password = admin
+ssl-set-email  =  root@localhost
+run-updater = 1
+ssl-config-sslvhost = Y
+enable-tftp = Y

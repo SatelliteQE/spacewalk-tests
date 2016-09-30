@@ -1,0 +1,5 @@
+[rhel6-optional]
+name=RHEL6 Optional
+%beaker_rhel6_baseurl%/optional/$basearch/os
+enabled=1
+gpgcheck=0

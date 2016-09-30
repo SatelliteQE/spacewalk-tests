@@ -80,7 +80,6 @@ LOCAL_BASH_SCRIPTS=rpm_verify_lib.sh \
                create_first_user.sh helper-log-movement.sh \
                cat_rhnplugin_repo_cache.sh \
                helper-rhn-register.sh get_rhel_channel_name.sh \
-               rhn-satellite-install.sh \
                spacewalk-install.sh \
                spacewalk_logs.sh \
                helper-get-distro-name.sh \
@@ -93,7 +92,6 @@ LOCAL_BASH_SCRIPTS=rpm_verify_lib.sh \
                helper-rhn-satellite-activate.sh \
                helper-taskomatic.py \
                helper-up2date-cert-to-rhnpushrc.sh \
-               helper-get-or-sync-channel.sh \
                helper-sm-reg.sh \
                helper-get-updater.sh \
                tttt-perf.sh

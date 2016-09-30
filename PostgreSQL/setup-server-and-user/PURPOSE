@@ -1,0 +1,4 @@
+This test installs PostgreSQL to be used by Spacewalk.
+
+It installs the PostgreSQL 8.4+ server, sets up the service,
+and creates spaceuser user in it.

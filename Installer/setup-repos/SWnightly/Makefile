@@ -10,20 +10,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-
-# Author: Author <email>
+#
+# Author: Jan Hutar <jhutar@redhat.com>
 
 # The toplevel namespace within which the test lives.
 TOPLEVEL_NAMESPACE=CoreOS
 
 # The name of the package under test:
-PACKAGE_NAME=Spacewalk/
+PACKAGE_NAME=Spacewalk/Installer
 
 # The path of the test below the package:
-RELATIVE_PATH=Others/Example
+RELATIVE_PATH=setup-repos/SWnightly
 
 # Version of the Test. Used with make tag.
-export TESTVERSION=1.0
+export TESTVERSION=2.0
 
 # The combined namespace of the test.
 export TEST=/$(TOPLEVEL_NAMESPACE)/$(PACKAGE_NAME)/$(RELATIVE_PATH)
@@ -40,16 +40,19 @@ export TEST=/$(TOPLEVEL_NAMESPACE)/$(PACKAGE_NAME)/$(RELATIVE_PATH)
 BUILT_FILES= 
 
 # data files, .c files, scripts anything needed to either compile the test and/or run it.
-FILES=$(METADATA) runtest.sh Makefile
+FILES=$(METADATA) runtest.sh Makefile PURPOSE RHEL6-optional.repo
 
 run: $(FILES) build
 	./runtest.sh
 
 build: $(BUILT_FILES)
-	chmod a+x runtest.sh 
+	chmod a+x ./runtest.sh
 
 clean:
 	rm -f *~ *.rpm $(BUILT_FILES)
+
+# You may need to add other targets e.g. to build executables from source code
+# Add them here:
 
 # Include Common Makefile
 include /usr/share/rhts/lib/rhts-make.include
@@ -57,14 +60,16 @@ include /usr/share/rhts/lib/rhts-make.include
 # Generate the testinfo.desc here:
 $(METADATA): Makefile
 	@touch $(METADATA)
-	@echo "Owner:         Name of author <email>" > $(METADATA)
-	@echo "Name:          $(TEST)" >> $(METADATA)
-	@echo "Path:          $(TEST_DIR)" >> $(METADATA)
-	@echo "License:       GPL" >> $(METADATA)
-	@echo "TestVersion:   $(TESTVERSION)" >> $(METADATA)
-	@echo "Description:   Example test" >> $(METADATA)
-	@echo "TestTime:      1h" >> $(METADATA)
-	@echo "RunFor:        $(PACKAGE_NAME)" >> $(METADATA)
-	@echo "RhtsRequires:  test(/CoreOS/Spacewalk/Helper)" >> $(METADATA)
+	@echo "Owner:        Jan Hutar <jhutar@redhat.com>" > $(METADATA)
+	@echo "Name:         $(TEST)" >> $(METADATA)
+	@echo "Path:         $(TEST_DIR)" >> $(METADATA)
+	@echo "License:      GPL" >> $(METADATA)
+	@echo "TestVersion:  $(TESTVERSION)" >> $(METADATA)
+	@echo "Description:  Setup Spacewalk nightly repositories" >> $(METADATA)
+	@echo "TestTime:     7m" >> $(METADATA)
+	@echo "Type:         Install" >> $(METADATA)
+	@echo "RunFor:       $(PACKAGE_NAME)" >> $(METADATA)
 	@echo "Architectures: i386 x86_64" >> $(METADATA)
+	@echo "RhtsRequires: test(/CoreOS/Spacewalk/Helper)" >> $(METADATA)
+	@echo "RhtsRequires: test(/CoreOS/Spacewalk/Installer/setup-repos/jpackage-generic)" >> $(METADATA)
 	rhts-lint $(METADATA)

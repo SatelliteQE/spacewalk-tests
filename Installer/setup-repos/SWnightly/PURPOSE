@@ -1,0 +1,4 @@
+Setup yum repositories essential for Spacewalk nightly installation.
+
+For more info please see:
+https://fedorahosted.org/spacewalk/wiki/HowToInstall

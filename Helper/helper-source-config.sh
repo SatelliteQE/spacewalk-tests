@@ -14,10 +14,14 @@ if [ -f /tmp/defaults.conf ]; then
   . /tmp/defaults.conf || rlFail "Config file '/tmp/defaults.conf' sourced"
 fi
 
+function helper_get {
+    wget $1 --no-check-certificate --quiet > /dev/null
+    echo ${1##+(*/)} 
+}
+
 # Transfer custom variables from TEST_PARAM_CONFIG to the test
 if [ -n "$TEST_PARAM_CONFIG" ]; then
-  type rhn_helper_get > /dev/null || echo "Please, source library rhn-satellite-install.sh"
-  TEST_PARAM_CONFIG=$( rhn_helper_get "$TEST_PARAM_CONFIG" | tail -n 1 )
+  TEST_PARAM_CONFIG=$( helper_get "$TEST_PARAM_CONFIG" | tail -n 1 )
   . $TEST_PARAM_CONFIG || rlFail "Config file '$TEST_PARAM_CONFIG' sourced" $?
   /bin/cp -f $TEST_PARAM_CONFIG /tmp/defaults.conf || rlFail "/bin/cp -f $TEST_PARAM_CONFIG /tmp/defaults.conf"
 fi
