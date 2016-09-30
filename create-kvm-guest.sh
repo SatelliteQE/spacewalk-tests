@@ -10,4 +10,10 @@ virt-install \
    --network network:default \
     -x "ks=https://raw.githubusercontent.com/SatelliteQE/spacewalk-tests/master/config/fedora.ks" \
    --os-type=linux \
-   --os-variant=fedora23
+   --os-variant=fedora23 \
+   --noautoconsole
+
+# Populate Ansible inventory
+mac=$( virsh dumpxml fedora-spacewalk | grep 'mac\s\+address=' | cut -d "'" -f 2 )
+ip=$( arp -n | grep -i "$mac" | cut -d " " -f 1 )
+echo "$ip" >config/hosts.ini
