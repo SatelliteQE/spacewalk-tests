@@ -3,4 +3,4 @@ name=JPackage generic
 mirrorlist=http://www.jpackage.org/mirrorlist.php?dist=generic&type=free&release=5.0
 enabled=1
 gpgcheck=1
-gpgkey=file:///mnt/tests/CoreOS/Spacewalk/Installer/setup-repos/SWnightlyjpackage.asc
+gpgkey=file:///mnt/tests/CoreOS/Spacewalk/Installer/setup-repos/SWnightly/jpackage.asc
