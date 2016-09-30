@@ -14,11 +14,6 @@ if [ -f /tmp/defaults.conf ]; then
   . /tmp/defaults.conf || rlFail "Config file '/tmp/defaults.conf' sourced"
 fi
 
-function helper_get {
-    wget $1 --no-check-certificate --quiet > /dev/null
-    echo ${1##+(*/)} 
-}
-
 # Transfer custom variables from TEST_PARAM_CONFIG to the test
 if [ -n "$TEST_PARAM_CONFIG" ]; then
   TEST_PARAM_CONFIG=$( helper_get "$TEST_PARAM_CONFIG" | tail -n 1 )

@@ -384,6 +384,19 @@ function spacewalk_upload_logs() {
 }
 
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# helper_get
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+function helper_get {
+    wget $1 --no-check-certificate --quiet > /dev/null
+    echo ${1##+(*/)}
+}
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# rlGetDistroName
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function rlGetDistroName() {
   rlLogWarning "This function is obsoleted, please use helper-get-distro-name.sh directly"
@@ -452,7 +465,7 @@ function helper_install_repo() {
   rlRun "cat $name"
   gpgkey=$( grep '^\s*gpgkey\s*=' $name | cut -d '=' -f 2 )
   if [ -n "$gpgkey" ]; then
-    gpgkey_file="$( rhn_helper_get "$gpgkey" | tail -n 1 )"
+    gpgkey_file="$( helper_get "$gpgkey" | tail -n 1 )"
     rlRun "rpm --import $gpgkey_file"
   fi
   rlRun "ls -al /etc/yum.repos.d/"
