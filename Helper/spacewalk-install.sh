@@ -390,3 +390,111 @@ function rlGetDistroName() {
   /mnt/tests/CoreOS/Spacewalk/Helper/helper-get-distro-name.sh
 }
 
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# helper_install_repo
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+: <<=cut
+=pod
+
+=head3 helper_install_repo
+
+Copies repository specified by C<repofile> option.
+
+    helper_install_repo repofile
+
+=over
+
+=item repofile
+
+Specifies path to the repository file which might contain some
+marks wich will be replaced based on current system. These are
+C<%OSname%>, C<%OSversion%>, C<%ARCH%>
+
+=back
+
+These marks are:
+
+=over
+
+=item C<%OSname%>
+
+This is RHEL or Fedora.
+
+=item C<%OSversion%>
+
+This is 5 on RHEL5-U6 and 14 on Fedora14.
+
+=item C<%ARCH%>
+
+This is basearch.
+
+=back
+
+=cut
+function helper_install_repo() {
+  rlAssertExists "$1" || rlDie "Can not access repofile '$1'"
+  rlLogInfo "Going to set up repo '$1'"
+  rlRun "install $1 /etc/yum.repos.d/"
+  local name="/etc/yum.repos.d/$( basename $1 )"
+  rlRun "sed -i s/%OSname%/$( helper-get-distro-name.sh | tail -n 1 )/g $name"
+  local version=$( rlGetDistroRelease | tail -n 1 )
+  rlRun "sed -i s/%OSversion%/$version/g $name"
+  local arch=$( rlGetArch | tail -n 1 )
+  rlRun "sed -i s/%ARCH%/$arch/g $name"
+  if [ -r /etc/yum.repos.d/beaker-Server.repo ]; then
+    local beaker_baseurl=$(grep baseurl /etc/yum.repos.d/beaker-Server.repo | sed "s|/x86_64/os\(/Server\)\?$||g")
+  else
+    local beaker_baseurl=$(grep "name=\"beaker-Server\"" /root/anaconda-ks.cfg | sed 's|^.*url=\([^ ]\+\).*$|\1|' | sed "s|/x86_64/os\(/Server\)\?$||g")
+  fi
+  rlRun "sed -i 's|%beaker_rhel6_baseurl%|${beaker_baseurl}|g' $name"
+
+  rlRun "cat $name"
+  gpgkey=$( grep '^\s*gpgkey\s*=' $name | cut -d '=' -f 2 )
+  if [ -n "$gpgkey" ]; then
+    gpgkey_file="$( rhn_helper_get "$gpgkey" | tail -n 1 )"
+    rlRun "rpm --import $gpgkey_file"
+  fi
+  rlRun "ls -al /etc/yum.repos.d/"
+}
+
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# helper_install_repo_EPEL
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+: <<=cut
+=pod
+
+=head3 helper_install_repo_EPEL
+
+Installs reository for RHEL we are currently on.
+
+    helper_install_repo_EPEL
+
+Returns 0 if EPEL was enabled, othervise returns 1
+(e.g. if it failed to enable it or if it was already enabled).
+
+=cut
+function helper_install_repo_EPEL() {
+  local rc=1   # default return value is 1
+  if rlIsRHEL; then
+    if rpm -q epel-release; then
+      rlShowPackageVersion 'epel-release'
+      rlLogInfo "helper_install_repo_EPEL: EPEL already configured!"
+    else
+      local dis=$( rlGetDistroRelease | tail -n 1 )
+      local arch=$( uname -i )
+      if echo "$arch" | grep -e '^i386$' -e '^x86_64$' -e '^ppc$'; then
+        rlRun "rpm -Uvh http://dl.fedoraproject.org/pub/epel/epel-release-latest-${dis}.noarch.rpm" \
+          && rc=0
+        rlShowPackageVersion 'epel-release'
+      else
+        rlLogWarning "helper_install_repo_EPEL: EPEL not available for '$arch'."
+      fi
+    fi
+  else
+    rlLogWarning "helper_install_repo_EPEL: You are not on RHEL system. Skipping EPEL installation."
+  fi
+  return $rc
+}

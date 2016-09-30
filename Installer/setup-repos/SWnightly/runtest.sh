@@ -59,11 +59,11 @@ rlPhaseStartTest "Setup repos"
     rlRun "sed -i 's/enabled=1/enabled=0/' /etc/yum.repos.d/spacewalk.repo"
 
     # On RHEL setup EPEL repo as well
-    rlIsRHEL && rhn_helper_install_repo_EPEL
-    rlIsRHEL 6 && rhn_helper_install_repo RHEL6-optional.repo
+    rlIsRHEL && helper_install_repo_EPEL
+    rlIsRHEL 6 && helper_install_repo RHEL6-optional.repo
 
     # For all system we need set up jpackage repo
-    rhn_helper_install_repo jpackage-generic.repo
+    helper_install_repo jpackage-generic.repo
 
     # On RHEL7 I do see dependency problem with cglib upgrade
     # Also see http://post-office.corp.redhat.com/archives/satellite-dept-list/2014-October/msg00018.html
