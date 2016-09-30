@@ -71,5 +71,4 @@ $(METADATA): Makefile
 	@echo "RunFor:       $(PACKAGE_NAME)" >> $(METADATA)
 	@echo "Architectures: i386 x86_64" >> $(METADATA)
 	@echo "RhtsRequires: test(/CoreOS/Spacewalk/Helper)" >> $(METADATA)
-	@echo "RhtsRequires: test(/CoreOS/Spacewalk/Installer/setup-repos/jpackage-generic)" >> $(METADATA)
 	rhts-lint $(METADATA)
