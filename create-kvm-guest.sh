@@ -1,3 +1,4 @@
+#!/bin/sh
 
 dnf install -y virt-install virt-viewer
 virt-install \
