@@ -8,14 +8,24 @@
         cd /mnt/tests/CoreOS/Spacewalk
         git pull
 
+    - name: "Prepare tests metadata"
+      command:
+        make testinfo.desc -C "/mnt/tests{{ test }}"
+    - name: "Gather tests requirements"
+      shell:
+        grep '^Requires:' "/mnt/tests{{ test }}/testinfo.desc" | cut -d ':' -f 2 | tr "\n" ' ' | sed 's/\s\+/ /g'
+      register: requirements
+    - name: "Install tests requirements"
+      command:
+        "dnf -y install {{ requirements.stdout }}"
     - name: "Example test"
       command:
-        make run -C /mnt/tests/CoreOS/Spacewalk/Others/Example/
-      register: test
+        "make run -C /mnt/tests{{ test }}/"
+      register: result
     - name: "Example test stdout"
       debug:
-        msg: "{{ test.stdout.split('\n') }}"
+        msg: "{{ result.stdout.split('\n') }}"
     - name: "Example test stderr"
       debug:
-        msg: "{{ test.stderr.split('\n') }}"
+        msg: "{{ result.stderr.split('\n') }}"
 ...

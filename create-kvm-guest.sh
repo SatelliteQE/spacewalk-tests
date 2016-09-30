@@ -13,6 +13,17 @@ virt-install \
    --os-variant=fedora23 \
    --noautoconsole
 
+# Now wait for installation to finish and start the host
+while true; do
+  virsh list | grep 'fedora-spacewalk.*running' && break
+  sleep 5
+done
+while true; do
+  virsh list --all | grep 'fedora-spacewalk.*shut off' && break
+  sleep 15
+done
+virsh start fedora-spacewalk
+
 # Populate Ansible inventory
 mac=$( virsh dumpxml fedora-spacewalk | grep 'mac\s\+address=' | cut -d "'" -f 2 )
 ip=$( arp -n | grep -i "$mac" | cut -d " " -f 1 )

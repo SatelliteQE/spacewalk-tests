@@ -50,7 +50,7 @@ vim
 # Install Beaker client tools
 rpm --import https://beaker-project.org/gpg/RPM-GPG-KEY-beaker-project
 dnf config-manager --add-repo https://beaker-project.org/yum/client/Fedora24
-dnf install -y git rhts-test-env beakerlib --nogpgcheck
+dnf install -y git rhts-test-env beakerlib rhts-devel --nogpgcheck
 
 # Clone git with tests
 mkdir -p /mnt/tests/CoreOS
