@@ -62,6 +62,9 @@ rlPhaseStartTest "Setup repos"
     rlIsRHEL && rhn_helper_install_repo_EPEL
     rlIsRHEL 6 && rhn_helper_install_repo RHEL6-optional.repo
 
+    # For all system we need set up jpackage repo
+    rhn_helper_install_repo jpackage-generic.repo
+
     # On RHEL7 I do see dependency problem with cglib upgrade
     # Also see http://post-office.corp.redhat.com/archives/satellite-dept-list/2014-October/msg00018.html
     rlIsRHEL 7 && rlRun "rm -f /etc/yum.repos.d/beaker-Server-optional*"
@@ -72,11 +75,6 @@ rlPhaseStartTest "Setup repos"
     type dnf && rlRun "dnf update -y" || rlRun "yum update -y"
 
 rlPhaseEnd
-
-
-# On Fedora and RHEL6,7 setup JPackage repo as well
-rlIsFedora || rlIsRHEL 6 7 \
-  && make run -C /mnt/tests/CoreOS/Spacewalk/Installer/setup-repos/jpackage-generic
 
 
 rlJournalEnd
