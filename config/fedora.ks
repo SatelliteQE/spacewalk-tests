@@ -42,6 +42,9 @@ make
 vim
 %end
 
+%addon com_redhat_kdump --disable
+%end
+
 %post  --log=/root/post-script.log
 
 # Install Beaker client tools
