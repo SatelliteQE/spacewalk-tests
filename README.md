@@ -35,4 +35,22 @@ For an example test see Spacewalk/Others/Example directory. To run the test, you
 make -C Spacewalk/Others/Example
 ```
 
+## Running tests in the VM
+
+### Directly via ssh
+
+TODO: Install test's requirements before running it.
+
+```
+ssh -i config/id_rsa root@$( cat config/hosts.ini ) -C "make run -C /mnt/tests/CoreOS/Spacewalk/Others/Example"
+```
+
+### Via Ansible
+
+If you have Ansible installed, you can run:
+
+```
+ansible-playbook --private-key config/id_rsa -i config/hosts.ini tests.yaml --extra-vars="test=/CoreOS/Spacewalk/Others/Example"
+```
+
 [1] https://beaker-project.org/docs/user-guide/example-task.html
