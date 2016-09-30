@@ -9,4 +9,4 @@ virt-install \
    --network network:default \
     -x "ks=https://raw.githubusercontent.com/SatelliteQE/spacewalk-tests/master/fedora.ks" \
    --os-type=linux \
-   --os-variant=rhel6
+   --os-variant=fedora23
