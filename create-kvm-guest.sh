@@ -7,6 +7,6 @@ virt-install \
    --vcpus=2 --ram=2048 \
    --location=http://download.eng.brq.redhat.com/pub/fedora/linux/releases/24/Server/x86_64/os \
    --network network:default \
-    -x "ks=https://raw.githubusercontent.com/SatelliteQE/spacewalk-tests/master/fedora.ks" \
+    -x "ks=https://raw.githubusercontent.com/SatelliteQE/spacewalk-tests/master/config/fedora.ks" \
    --os-type=linux \
    --os-variant=fedora23
