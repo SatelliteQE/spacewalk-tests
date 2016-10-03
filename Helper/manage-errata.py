@@ -16,8 +16,8 @@
 # Examples:
 #    manage-errata.py ${RHN_USER} ${RHN_PASS}
 #    https://${RHN_SERVER}/rpc/api ADD_PACKAGE advisoryName packageId
-#    manage-errata.py ${RHN_USER} ${RHN_PASS} https://${RHN_SERVER}/rpc/api LIST_FOR_CHANNEL_BY_DATE channel ${CUSTOM_CHANNEL} 20071030  20071130
-#    manage-errata.py ${RHN_USER} ${RHN_PASS} https://${RHN_SERVER}/rpc/api LIST_FOR_CHANNEL_BY_DATE channel ${CUSTOM_CHANNEL} 20071030
+#    manage-errata.py ${RHN_USER} ${RHN_PASS} https://${RHN_SERVER}/rpc/api LIST_FOR_CHANNEL_BY_DATE ${CUSTOM_CHANNEL} 20071030  20071130
+#    manage-errata.py ${RHN_USER} ${RHN_PASS} https://${RHN_SERVER}/rpc/api LIST_FOR_CHANNEL_BY_DATE ${CUSTOM_CHANNEL} 20071030
 #    manage-errata.py ${RHN_USER} ${RHN_PASS} https://${RHN_SERVER}/rpc/api LIST_ALL_CHANNELS_BY_DATE 20071030  20071130
 #    manage-errata.py ${RHN_USER} ${RHN_PASS} https://${RHN_SERVER}/rpc/api LIST_ALL_CHANNELS_BY_DATE 20071030
 #    manage-errata.py ${RHN_USER} ${RHN_PASS} https://${RHN_SERVER}/rpc/api LIST_ADVISORY_BY_DATE 20071030 20071031 HBA-2007:0574
@@ -42,7 +42,7 @@ class Errata(Spacewalk):
     """
     def add_package(self, errata_name, pkgid):
         count = 0
-        count = self.call("errata.addPackages", errata_name, [pkgid])
+        count = self.call("errata.addPackages", errata_name, [int(pkgid)])
         print count
         return True
 
