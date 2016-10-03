@@ -1,7 +1,8 @@
 #!/bin/sh
 
 release=${release:="24"}
-echo $release
+echo "==========================="
+echo "    Install Fedora $release"
 dnf install -y virt-install virt-viewer
 virt-install \
    --name="fedora-${release}-spacewalk" \
