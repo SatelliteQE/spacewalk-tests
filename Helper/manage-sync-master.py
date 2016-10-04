@@ -32,7 +32,7 @@ class SyncMaster(Spacewalk):
         print master['id']
         return True
 
-    def CREATE_OR_FIND(self, label):
+    def create_or_find(self, label):
         """
         Use this instead of 'CREATE' in case there might be such a master
         already and you are OK with that and you just want it's ID then
@@ -50,13 +50,13 @@ class SyncMaster(Spacewalk):
         print master['id']
         return True
 
-    def SET_CA_CERT(self, master_id, ca_file_path):
+    def set_ca_cert(self, master_id, ca_file_path):
         return self.call("sync.master.setCaCert", int(master_id), ca_file_path)
 
-    def GET_MASTER(self, master_id):
+    def get_master(self, master_id):
         return self.call("sync.master.getMaster", int(master_id))
 
-    def DELETE(self, master_id):
+    def delete(self, master_id):
         return self.call("sync.master.delete", master_id)
 
     def run(self):
