@@ -12,7 +12,8 @@
 #     * key will be universal default because last option is 'True'
 # manage-ak.py ${SAT_USER} ${SAT_PASS} https://${RHN_PARENT_SERVER_TAG}/rpc/api ADD_CHILD_CHANNELS $CHILD_CHANN $ACTIVE_KEY
 # manage-ak.py ${SAT_USER} ${SAT_PASS} https://${RHN_PARENT_SERVER_TAG}/rpc/api CREATE $BASE_CHANNEL True True
-# manage-ak.py ${RHN_USER} ${RHN_PASS} https://${RHN_SERVER}/rpc/api CREATE_WITH_DEFAULT_CHANNEL False True
+# manage-ak.py ${RHN_USER} ${RHN_PASS} https://${RHN_SERVER}/rpc/api
+# CREATE_WITH_DEFAULT_CHANNEL False True
 
 import sys
 from spacewalk_api import Spacewalk
@@ -59,7 +60,7 @@ class ActivationKey(Spacewalk):
             return 0
         descritption = BeakerEnv.testname()
         self.call("activationkey.create", '', descritption, channel,
-                   entitlements(ent), Spacewalk.parse_bool(default))
+                  entitlements(ent), Spacewalk.parse_bool(default))
         return 1
 
     def create_with_default_channel(self, ent="0", default=False):
@@ -73,7 +74,7 @@ class ActivationKey(Spacewalk):
         for ak in keys:
             print "%s|%s|%s|%s" % (ak['key'], ak['base_channel_label'], ak['entitlements'], ak['universal_default'])
         return 1
-    
+
     def delete(self, activ_key):
         ret = self.call("activationkey.delete", activ_key)
         return ret
@@ -86,7 +87,7 @@ class ActivationKey(Spacewalk):
 
     def add_packages(self, activ_key, package, arch):
         data = [{'name': package, 'arch': arch}, ]
-        return self.call("activationkey.addPackages", activ_key, data) 
+        return self.call("activationkey.addPackages", activ_key, data)
 
     def add_conf_chann(self, activ_key, conf_channel, default):
         if not self.call("configchannel.channelExists", conf_channel):
@@ -94,21 +95,24 @@ class ActivationKey(Spacewalk):
             return 2
         else:
             default = Spacewalk.parse_bool(activ_key, default)
-            self.call("activationkey.addConfigChannels", activ_key, conf_channel, default)
+            self.call("activationkey.addConfigChannels",
+                      activ_key, conf_channel, default)
         return 1
 
     def del_conf_chann(self, activ_key, conf_channel):
         if not self.call("configchannel.channelExists", conf_channel):
             raise Exception("Config channel %s doesn't exist" % conf_channel)
             return 2
-        ret = self.call("activationkey.removeConfigChannels", activ_key, conf_channel)
+        ret = self.call("activationkey.removeConfigChannels",
+                        activ_key, conf_channel)
         return ret
 
     def add_child_channels(self, activ_key, conf_channel):
         if not self.call("configchannel.channelExists", conf_channel):
             raise Exception("Config channel %s doesn't exist" % conf_channel)
             return 2
-        ret = self.call("activationkey.addChildChannels", activ_key, conf_channel)
+        ret = self.call("activationkey.addChildChannels",
+                        activ_key, conf_channel)
         return ret
 
     def run(self):
@@ -119,7 +123,3 @@ class ActivationKey(Spacewalk):
 if __name__ == "__main__":
     main = ActivationKey(*sys.argv[1:])
     sys.exit(abs(main.run() - 1))
-
-
-
-

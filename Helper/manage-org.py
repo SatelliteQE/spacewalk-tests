@@ -68,15 +68,15 @@ class Organization(Spacewalk):
 
     def add_trust(self, org_id, org_admin):
         if self.check_org_exists(org_id) or \
-            self.check_org_exists(org_admin):
+                self.check_org_exists(org_admin):
             raise(Exception("Organization exists"))
         self.call("org.trusts.addTrust", int(org_id), int(org_admin))
         return True
 
     def del_trust(self, org, org_admin):
         if not self.check_org_exists(int(org)) or \
-            check_org_exists(int(org_admin)):
-                raise(Exception("Organization doesn't exist"))
+                check_org_exists(int(org_admin)):
+            raise(Exception("Organization doesn't exist"))
         self.call("org.trusts.removetrust", int(org), int(org_admin))
         return True
 
@@ -120,7 +120,7 @@ class Organization(Spacewalk):
         return len(ret) - 1
 
     def get_mine_org_id(self, user):
-        ret=self.call("user.getDetails"(user))
+        ret = self.call("user.getDetails"(user))
         print ret['org_id']
         return 0
 
@@ -131,12 +131,11 @@ class Organization(Spacewalk):
 
     def run(self):
         """ main function which run method """
-        method=self.getMethod()
-        fce=getattr(self, method)
+        method = self.getMethod()
+        fce = getattr(self, method)
         return fce(*self.argv[1:])
 
 
 if __name__ == "__main__":
-    main=Organization(*sys.argv[1:])
+    main = Organization(*sys.argv[1:])
     sys.exit(main.run() - 1)
-

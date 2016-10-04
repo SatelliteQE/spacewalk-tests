@@ -79,7 +79,6 @@ class Spacewalk:
         self.output = fce(self.key, *conv_params)
         return self.output
 
-
     def stdOut(self):
         def _print(data):
             print("\t".join(["%s" % it[1] for it in data.items()]))

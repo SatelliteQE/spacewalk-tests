@@ -115,24 +115,24 @@ class Users(Spacewalk):
 
 
 def create_role(ROLES):
-        roles = []
-        # we need to have addition of roles in alphabetic order
-        # we expect such ordering in reporting-genereal/testcases/where.sh
-        if ROLES[5] == '1':
-            roles.append('activation_key_admin')
-        if ROLES[2] == '1':
-            roles.append('channel_admin')
-        if ROLES[3] == '1':
-            roles.append('config_admin')
-        if ROLES[6] == '1':
-            roles.append('monitoring_admin')
-        if ROLES[1] == '1':
-            roles.append('org_admin')
-        if ROLES[0] == '1':
-            roles.append('satellite_admin')
-        if ROLES[4] == '1':
-            roles.append('system_group_admin')
-        return roles
+    roles = []
+    # we need to have addition of roles in alphabetic order
+    # we expect such ordering in reporting-genereal/testcases/where.sh
+    if ROLES[5] == '1':
+        roles.append('activation_key_admin')
+    if ROLES[2] == '1':
+        roles.append('channel_admin')
+    if ROLES[3] == '1':
+        roles.append('config_admin')
+    if ROLES[6] == '1':
+        roles.append('monitoring_admin')
+    if ROLES[1] == '1':
+        roles.append('org_admin')
+    if ROLES[0] == '1':
+        roles.append('satellite_admin')
+    if ROLES[4] == '1':
+        roles.append('system_group_admin')
+    return roles
 
 if __name__ == '__main__':
     main = Users(*sys.argv[1:])

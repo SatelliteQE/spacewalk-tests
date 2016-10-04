@@ -40,6 +40,7 @@ class Errata(Spacewalk):
 
     Namespace: errata
     """
+
     def add_package(self, errata_name, pkgid):
         count = 0
         count = self.call("errata.addPackages", errata_name, [int(pkgid)])
