@@ -5,6 +5,18 @@
 #          Patrik Segedy <psegedy@redhat.com>
 # year: 2016
 
+# Examples:
+# manage-proxy.py ${RHN_USER} ${RHN_PASS} https://${RHN_SERVER}/rpc/api
+# IS_PROXY    # Returns O if the host is Proxy
+# manage-proxy.py ${RHN_USER} ${RHN_PASS} https://${RHN_SERVER}/rpc/api
+# ACTIVATE_PROXY 5.4
+# manage-proxy.py ${RHN_USER} ${RHN_PASS} https://${RHN_SERVER}/rpc/api
+# DEACTIVATE_PROXY
+# manage-proxy.py ${RHN_USER} ${RHN_PASS} https://${RHN_SERVER}/rpc/api
+# CREATE_MONITORING_SCOUT
+# manage-proxy.py ${RHN_USER} ${RHN_PASS} https://${RHN_SERVER}/rpc/api
+# LIST_AVAILABLE_PROXY_CHANNELS
+
 import sys
 import xmlrpclib
 from spacewalk_api import Spacewalk
