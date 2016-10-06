@@ -23,6 +23,23 @@ class BeakerEnv:
         return os.environ.get("TESTID")
 
 
+"""
+# Example using this script and python classes
+
+>> python spacewalk_api.py admin nimda http://elisha.brq.redhat.com/rpc/api "system.listActiveSystems"
+
+# via Python
+from spacewalk_api import Spacewalk
+
+class Example(Spacewalk):
+    def test1(self):
+       for system in self.call("system.listActiveSystems"):
+          print system
+if __name__=="__main__":
+    s=Example("admin", "pass", "localhost")
+    s.test1()
+"""
+
 class Spacewalk:
 
     @staticmethod
