@@ -10,7 +10,6 @@
 # manage-sync-slave.py admin nimda https://`hostname`/rpc/api GET_SLAVE 13
 
 import sys
-import xmlrpclib
 from spacewalk_api import Spacewalk
 
 
@@ -28,17 +27,17 @@ class SyncSlave(Spacewalk):
             enabled (boolean): Let this slave talk to us?
             allow_orgs (boolean): Export all our orgs to this slave?
         """
-        enabled = True if enabled == 1 else enabled = False
-        allow_orgs = True if allow_orgs == 1 else allow_orgs = False
+        enabled = True if enabled == 1 else False
+        allow_orgs = True if allow_orgs == 1 else False
         slave = self.call("sync.slave.create", slave, enabled, allow_orgs)
         print slave['id']
         return True
 
     def get_slave(self, slave_id):
-        return self.call("sync.slave.getSlave", int(master_id))
+        return self.call("sync.slave.getSlave", int(slave_id))
 
     def delete(self, slave_id):
-        return self.call("sync.slave.delete", int(master_id))
+        return self.call("sync.slave.delete", int(slave_id))
 
     def run(self):
         """ main function which run method """
