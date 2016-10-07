@@ -77,6 +77,11 @@ class Proxy(Spacewalk):
         return fce(*self.argv[1:])
 
 if __name__ == "__main__":
-    main = Proxy(*sys.argv[1:])
+    try:
+        main = Proxy(*sys.argv[1:])
+    except xmlrpclib.Fault, e:
+        print e
+        sys.exit(2)
+
     SYSTEM_ID_FILE = open("/etc/sysconfig/rhn/systemid", 'r').read()
     sys.exit(main.run() - 1)
