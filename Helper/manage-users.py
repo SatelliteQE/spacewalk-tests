@@ -24,6 +24,7 @@
 #
 
 import sys
+import xmlrpclib
 from spacewalk_api import Spacewalk
 
 
@@ -135,5 +136,10 @@ def create_role(ROLES):
     return roles
 
 if __name__ == '__main__':
-    main = Users(*sys.argv[1:])
+    try:
+        main = Users(*sys.argv[1:])
+    except xmlrpclib.Fault, e:
+        print e
+        sys.exit(2)
+
     sys.exit(abs(main.run() - 1))
