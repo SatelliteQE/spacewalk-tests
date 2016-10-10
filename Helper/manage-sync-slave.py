@@ -47,4 +47,4 @@ class SyncSlave(Spacewalk):
 
 if __name__ == "__main__":
     main = SyncSlave(*sys.argv[1:])
-    sys.exit(main.run() - 1)
+    sys.exit(abs(main.run() - 1))

@@ -370,4 +370,4 @@ class System(Spacewalk):
 
 if __name__ == "__main__":
     main = System(*sys.argv[1:])
-    sys.exit(main.run() - 1)
+    sys.exit(abs(main.run() - 1))

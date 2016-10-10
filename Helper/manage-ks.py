@@ -172,4 +172,4 @@ class Kickstart(Spacewalk):
 
 if __name__ == "__main__":
     main = Kickstart(*sys.argv[1:])
-    sys.exit(main.run() - 1)
+    sys.exit(abs(main.run() - 1))

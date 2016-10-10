@@ -80,7 +80,7 @@ class Package(Spacewalk):
         to_delete = self.call("packages.search.name", name)
         if to_delete == []:
             print "None package found for deletion."
-            return False
+            return 101
         else:
             for pkg in to_delete:
                 if pkg['name'] == name:
@@ -107,4 +107,4 @@ class Package(Spacewalk):
 
 if __name__ == "__main__":
     main = Package(*sys.argv[1:])
-    sys.exit(main.run() - 1)
+    sys.exit(abs(main.run() - 1))

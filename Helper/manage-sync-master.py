@@ -67,4 +67,4 @@ class SyncMaster(Spacewalk):
 
 if __name__ == "__main__":
     main = SyncMaster(*sys.argv[1:])
-    sys.exit(main.run() - 1)
+    sys.exit(abs(main.run() - 1))
