@@ -7,6 +7,60 @@
 #          Patrik Segedy <psegedy@redhat.com>
 # year: 2016
 
+# Examples:
+# specific system-ID into base-channel:
+# manage-system.py admin admin https://`hostname`/rpc/api setBaseChannel
+# 10001000 base-channel
+# set auto errata update for system:
+# manage-system.py admin admin https://`hostname`/rpc/api
+# SET_AUTO_ERRATA_UPDATE whoami TRUE|FALSE
+
+# whoami string means local system-ID
+# more child channels add into quotes 'onechild secondchild':
+# manage-system.py admin admin https://`hostname`/rpc/api setChildChannels
+# whoami 'child-channel another-child-channel'
+# manage-system.py admin admin https://`hostname`/rpc/api DELETE_SYSTEM
+# 'whoami'
+# manage-system.py admin admin https://`hostname`/rpc/api GET_GROUP_MEMBERSHIP
+#  'whoami' 'test_group_1'
+# manage-system.py admin admin https://`hostname`/rpc/api REM_GROUP_MEMBERSHIP
+# 'whoami' 'test_group_1'
+# manage-system.py admin admin https://`hostname`/rpc/api HW_REFRESH
+# 'whoami' now
+# manage-system.py admin admin https://`hostname`/rpc/api listPackages
+# 'whoami'
+# manage-system.py admin admin https://`hostname`/rpc/api isPackageInstalled
+# 'whoami' $pkg $release $version
+# manage-system.py admin admin https://`hostname`/rpc/api PKG_REFRESH
+# 'whoami' now
+# manage-system.py admin admin https://`hostname`/rpc/api PKG_INSTALL
+# 'whoami' now PKG_ID
+# manage-system.py admin admin https://`hostname`/rpc/api PKG_REMOVE
+# 'whoami' now PKG_ID
+# manage-system.py admin admin https://`hostname`/rpc/api SET_LOCK_STATUS
+# 1000010000 LOCKED
+# manage-system.py admin admin https://`hostname`/rpc/api GET_LOCK_STATUS
+# 1000010000
+# manage-system.py admin admin https://`hostname`/rpc/api SEARCH
+# 'query_string'
+# manage-system.py admin admin https://`hostname`/rpc/api UPGRADE_ENTITLEMENT
+# 1000010000 [monitoring_entitled|provisioning_entitled|virtualization_host|
+# virtualization_host_platform]
+# manage-system.py admin admin https://`hostname`/rpc/api LIST_ACTIVE_SYSTEMS
+# manage-system.py admin nimda https://`hostname`/rpc/api LIST_INACTIVE_SYSTEMS
+# 10
+# manage-system.py admin nimda https://`hostname`/rpc/api LIST_INACTIVE_SYSTEMS
+# # default 1
+# manage-system.py "$RHN_USER" "$RHN_PASS" "$SERVER"
+# addChannels whoami "channel_label" false
+
+# Schedule Remote script run.
+# manage-system.py admin nimda https://`hostname`/rpc/api 'SCHEDULE_SCRIPT_RUN'
+# '#!/bin/sh\nls\npwd' 'whoami' 'now'
+# Get Result  from the script
+# manage-system.py admin nimda https://${RHN_SERVER}/rpc/api
+# 'GET_SCRIPT_RESULTS' ${ACTION_ID}
+
 import sys
 import time
 from smqa_misc import read_system_id
@@ -27,25 +81,25 @@ class System(Spacewalk):
         else:
             raise Exception("Time not specified")
 
-    def get_server_id(server_id):
+    def get_server_id(self, server_id):
         if server_id == 'whoami':
             server_id = read_system_id()
         else:
             server_id = int(server_id)
         return server_id
 
-    def systemExists(self, server_id):
+    def system_exists(self, server_id):
         for row in self.call("system.listUserSystems"):
             if row.get('id') == server_id:
                 return True
         return False
 
-    def systemExistsLoop(self, server_id, timeout=60):
+    def system_exists_loop(self, server_id, timeout=60):
         """Block untill system exists or timeout is reached"""
         attempt_sleep = 1   # check every 1 second
         attempt_max = float(timeout) / attempt_sleep
         attempt = 0
-        while self.systemExists(server_id):
+        while self.system_exists(server_id):
             time.sleep(attempt_sleep)
             attempt += 1
             assert attempt <= attempt_max, \
@@ -64,7 +118,7 @@ class System(Spacewalk):
                          server_id, channel_labels.split(), add_to_top)
 
     def add_config_file(self, server_id, path=None, commit_to_local=True,
-                        contents, is_dir=False, owner='root', group='root',
+                        contents="", is_dir=False, owner='root', group='root',
                         permissions='644', macro_start_delimiter='{|',
                         macro_end_delimiter='|}',
                         selinux_ctx='root:object_r:unconfined_t',
@@ -131,6 +185,7 @@ class System(Spacewalk):
         for i in range(len(sys_list)):
             print "%s %s %s" % (sys_list[i]['id'], sys_list[i]['name'],
                                 sys_list[i]['last_checkin'])
+        return True
 
     def delete_system(self, server_id):
         """Removes system's profile from  Satellite"""
@@ -142,11 +197,11 @@ class System(Spacewalk):
         # Delete
         self.call("system.deleteSystems", arr_server_id)
         # Check system profile was really deleted (it is asynchronous)
-        return self.systemExistsLoop(server_id, 60)
+        return self.system_exists_loop(server_id, 60)
 
     def wait_till_system_exists(self, server_id):
         server_id = self.get_server_id(server_id)
-        return self.systemExistsLoop(server_id, 60)
+        return self.system_exists_loop(server_id, 60)
 
     def list_info(self, server_id):
         server_id = self.get_server_id(server_id)
@@ -354,7 +409,7 @@ class System(Spacewalk):
         return self.call("system.deleteCustomValues",
                          server_id, [custom_label])
 
-    def list_inactive_systems(self, inactive_days):
+    def list_inactive_systems(self, inactive_days=1):
         sys_list = self.call("system.listInactiveSystems", int(inactive_days))
         for i in range(len(sys_list)):
             print "%s %s %s" % (sys_list[i]['id'], sys_list[i]['name'],
