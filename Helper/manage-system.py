@@ -9,7 +9,7 @@
 
 # Examples:
 # specific system-ID into base-channel:
-# manage-system.py admin admin https://`hostname`/rpc/api setBaseChannel
+# manage-system.py admin admin https://`hostname`/rpc/api set_base_channel
 # 10001000 base-channel
 # set auto errata update for system:
 # manage-system.py admin admin https://`hostname`/rpc/api
@@ -17,7 +17,7 @@
 
 # whoami string means local system-ID
 # more child channels add into quotes 'onechild secondchild':
-# manage-system.py admin admin https://`hostname`/rpc/api setChildChannels
+# manage-system.py admin admin https://`hostname`/rpc/api set_child_channels
 # whoami 'child-channel another-child-channel'
 # manage-system.py admin admin https://`hostname`/rpc/api DELETE_SYSTEM
 # 'whoami'
@@ -27,9 +27,9 @@
 # 'whoami' 'test_group_1'
 # manage-system.py admin admin https://`hostname`/rpc/api HW_REFRESH
 # 'whoami' now
-# manage-system.py admin admin https://`hostname`/rpc/api listPackages
+# manage-system.py admin admin https://`hostname`/rpc/api list_packages
 # 'whoami'
-# manage-system.py admin admin https://`hostname`/rpc/api isPackageInstalled
+# manage-system.py admin admin https://`hostname`/rpc/api is_package_installed
 # 'whoami' $pkg $release $version
 # manage-system.py admin admin https://`hostname`/rpc/api PKG_REFRESH
 # 'whoami' now
@@ -64,6 +64,7 @@
 import sys
 import time
 from smqa_misc import read_system_id
+import xmlrpclib
 from spacewalk_api import Spacewalk
 
 
@@ -129,8 +130,12 @@ class System(Spacewalk):
                      'macro-start-delimiter': macro_start_delimiter,
                      'macro-end-delimiter': macro_end_delimiter,
                      'selinux_ctx': selinux_ctx, 'binary': binary}
-        return self.call("system.config.createOrUpdatePath", server_id, path,
-                         is_dir, conf_file, commit_to_local)
+        try:
+            self.call("system.config.createOrUpdatePath", server_id, path,
+                      is_dir, conf_file, commit_to_local)
+        except xmlrpclib.Fault:
+            return False
+        return True
 
     def list_packages(self, server_id):
         server_id = self.get_server_id(server_id)
@@ -292,8 +297,12 @@ class System(Spacewalk):
 
     def hw_refresh(self, server_id, time):
         server_id = self.get_server_id(server_id)
-        return self.call("system.scheduleHardwareRefresh",
-                         server_id, self._get_time(time))
+        try:
+            self.call("system.scheduleHardwareRefresh",
+                      server_id, self._get_time(time))
+        except xmlrpclib.Fault:
+            return False
+        return True
 
     def reboot(self, server_id, time):
         server_id = self.get_server_id(server_id)
@@ -302,15 +311,19 @@ class System(Spacewalk):
 
     def pkg_refresh(self, server_id, time):
         server_id = self.get_server_id(server_id)
-        return self.call("system.schedulePackageRefresh",
-                         server_id, self._get_time(time))
+        try:
+            self.call("system.schedulePackageRefresh",
+                      server_id, self._get_time(time))
+        except xmlrpclib.Fault:
+            return False
+        return True
 
-    def pkg_install(self, server_id, pkg_id, time):
+    def pkg_install(self, server_id, time, pkg_id):
         server_id = self.get_server_id(server_id)
         return self.call("system.system.schedulePackageInstall",
                          server_id, [pkg_id], self._get_time(time))
 
-    def pkg_remove(self, server_id, pkg_id, time):
+    def pkg_remove(self, server_id, time, pkg_id):
         server_id = self.get_server_id(server_id)
         return self.call("system.schedulePackageRemove",
                          server_id, [pkg_id], self._get_time(time))
