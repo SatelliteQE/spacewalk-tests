@@ -77,11 +77,12 @@ class Users(Spacewalk):
             print role
         return True
 
-    def get_user_id(self, *argv):
+    def get_user_id(self, login):
         for user in self.call("user.listUsers"):
-            if user['login'] == argv[5]:
+            if user['login'] == login:
                 print user['id']
                 return True
+        return False
 
     def enable(self, *argv):
         return self.call("user.enable", *argv)
