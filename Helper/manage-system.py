@@ -320,7 +320,7 @@ class System(Spacewalk):
 
     def pkg_install(self, server_id, time, pkg_id):
         server_id = self.get_server_id(server_id)
-        return self.call("system.system.schedulePackageInstall",
+        return self.call("system.schedulePackageInstall",
                          server_id, [int(pkg_id)], self._get_time(time))
 
     def pkg_remove(self, server_id, time, pkg_id):
