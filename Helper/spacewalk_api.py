@@ -77,13 +77,14 @@ class Spacewalk:
 
         if m != "taskomatic":
         # for taskomatic api call dosn't exist documentation
+            param_args = []
             for key, it in methods.items():
                 if key.startswith(method):
                     method_all = key
                     params = it["parameters"][1:]
                     logging.debug("# %s %s" % (method, params))
                     if len(args) == len(params):
-                        break
+                        param_args.append([args, params])
             if not method_all:
                 print("All methods: ", [it[0] for it in methods.items()])
                 raise Exception("method %s doesn't exist" % method)
@@ -92,7 +93,8 @@ class Spacewalk:
             for value, convert in zip(args, params):
                 logging.debug("# \t %s -> %s" % (value, convert))
                 if convert == "int":
-                    value = int(value)
+                    if type(value) == str and value.isdigit():
+                        value = int(value)
                 conv_params.append(value)
 
         fce = getattr(self.client, method)
