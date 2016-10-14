@@ -46,7 +46,7 @@ class Taskomatic(Spacewalk):
                     print "%s %s ;" % (field_name, bunches[field_name]),
                 print
         else:
-            if arg == "templates" or arg == "name" or arg == "description":
+            if arg in ("templates", "name", "description"):
                 for bunches in list:
                     print bunches[arg]
             else:
@@ -63,8 +63,7 @@ class Taskomatic(Spacewalk):
         list = self.call("taskomatic.listAllSatSchedules")
         if arg is None:
             for item in list:
-                print
-                print
+                print("\n")
                 for field_name in item:
                     print "%s = %s;" % (field_name, item[field_name]),
         else:
@@ -76,20 +75,20 @@ class Taskomatic(Spacewalk):
                 return 101
         return True
 
-    def list_active_schedule(self, arg):
-        list = self.call("taskomatic.listActiveSatSchedules")
+    def list_active_schedule(self, arg=None):
+        schedules = self.call("taskomatic.listActiveSatSchedules")
+        ARGS_ENABLE = ("data_map", "cron_expr", "active_from", "bunch", "id", "job_label")
         if arg is None:
-            for item in list:
-                print
-                print
+            for item in schedules:
+                print("\n")
                 for field_name in item:
                     print "%s = %s;" % (field_name, item[field_name]),
         else:
-            if arg == "data_map" or arg == "cron_expr" or arg == "active_from" or arg == "bunch" or arg == "id" or arg == "job_label":
+            if arg in ARGS_ENABLE:
                 for item in list:
                     print item[arg]
             else:
-                print "!!!!!%s is not defined!!!!\nuse only data_map , cron_expr , active_from , bunch , id , job_label" % arg
+                self.log.error("!!!!!%s is not defined!!!!\nuse only %s" % (arg, " ".ARGS_ENABLE))
                 return 101
         return True
 
@@ -103,8 +102,7 @@ class Taskomatic(Spacewalk):
 
         if arg is None:
             for item in list:
-                print
-                print
+                print("\n")
                 for field_name in item:
                     print "%s = %s;" % (field_name, item[field_name]),
         else:
@@ -126,8 +124,7 @@ class Taskomatic(Spacewalk):
         if arg is None:
             #     print list
             for item in list:
-                print
-                print
+                print("\n")
                 for field_name in item:
                     print "%s = %s;" % (field_name, item[field_name]),
         else:
