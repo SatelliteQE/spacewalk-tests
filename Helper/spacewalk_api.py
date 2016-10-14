@@ -42,6 +42,7 @@ if __name__=="__main__":
 
 class Spacewalk:
 
+    exitcode = 1
     @staticmethod
     def parse_bool(code_string):
         # Parse string like '1' to boolean like True
@@ -59,9 +60,9 @@ class Spacewalk:
         self.client = xmlrpclib.Server(server_url, verbose=0)
         self.argv = argv
 
+        self.log = logging
         if os.environ.get("DEBUG"):
-            logging.basicConfig(level=logging.DEBUG)
-
+            self.log.basicConfig(level=logging.DEBUG)
         if not username and not password:
             # anonymous authorization
             return
@@ -74,23 +75,25 @@ class Spacewalk:
         m = ".".join(method.split(".")[:-1])
         methods = self.client.api.getApiNamespaceCallList(self.key, m)
 
-        for key, it in methods.items():
-            if key.startswith(method):
-                method_all = key
-                params = it["parameters"][1:]
-                logging.debug("# %s %s" % (method, params))
-                if len(args) == len(params):
-                    break
-        if not method_all:
-            print("All methods: ", [it[0] for it in methods.items()])
-            raise Exception("method %s doesn't exist" % method)
-            return
+        if m != "taskomatic":
+        # for taskomatic api call dosn't exist documentation
+            for key, it in methods.items():
+                if key.startswith(method):
+                    method_all = key
+                    params = it["parameters"][1:]
+                    logging.debug("# %s %s" % (method, params))
+                    if len(args) == len(params):
+                        break
+            if not method_all:
+                print("All methods: ", [it[0] for it in methods.items()])
+                raise Exception("method %s doesn't exist" % method)
+                return
 
-        for value, convert in zip(args, params):
-            logging.debug("# \t %s -> %s" % (value, convert))
-            if convert == "int":
-                value = int(value)
-            conv_params.append(value)
+            for value, convert in zip(args, params):
+                logging.debug("# \t %s -> %s" % (value, convert))
+                if convert == "int":
+                    value = int(value)
+                conv_params.append(value)
 
         fce = getattr(self.client, method)
         self.output = fce(self.key, *conv_params)
@@ -116,7 +119,7 @@ class Spacewalk:
     def test(self):
         print "client.api.getVersion(): %s" % self.client.api.getVersion()
         print "client.api.systemVersion(): %s" % self.client.api.systemVersion()
-        return 1
+        return self.exitcode
 
 if __name__ == "__main__":
     s = Spacewalk(sys.argv[1], sys.argv[2], sys.argv[3])
