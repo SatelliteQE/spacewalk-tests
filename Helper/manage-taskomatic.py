@@ -190,7 +190,7 @@ class Taskomatic(Spacewalk):
         print self.call("taskomatic.unscheduleSatBunch", job_label)
         return True
 
-    def interpret_param(self, bunch, param):
+    def interpret_param(self, bunch, param=None):
         # result = {'channel_id': '161'}
         # result = {'list':'true'}
         # result = {'cobbler':'sync'}
