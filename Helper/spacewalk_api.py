@@ -96,6 +96,8 @@ class Spacewalk:
                     if type(value) == str and value.isdigit():
                         value = int(value)
                 conv_params.append(value)
+        else:
+            conv_params = args
 
         fce = getattr(self.client, method)
         self.output = fce(self.key, *conv_params)
