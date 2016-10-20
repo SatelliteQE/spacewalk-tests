@@ -55,7 +55,7 @@ class Taskomatic(Spacewalk):
         return True
 
     def list_bunch_sat_run(self, bunch):
-        for run in self.call("taskomatic.listBunchSatRuns"):
+        for run in self.call("taskomatic.listBunchSatRuns", bunch):
             print run
         return True
 
@@ -93,7 +93,7 @@ class Taskomatic(Spacewalk):
                 return 101
         return True
 
-    def list_active_schedule_by_bunch(self, bunch, arg):
+    def list_active_schedule_by_bunch(self, bunch, arg=None):
         if bunch is None:
             self.log.error("Error: Specify bunch name in parameter  !!!! ")
             self.log.error("try: ******** LIST_BUNCH name")
@@ -115,7 +115,7 @@ class Taskomatic(Spacewalk):
                 return 101
         return True
 
-    def list_schedule_sat_run(self, run_id, arg):
+    def list_schedule_sat_run(self, run_id, arg=None):
         if run_id is None:
             self.log.error("Error: Specify some RUN ID in parameter  !!!! ")
             self.log.error("ID is from : ****** LIST_ACTIVE_SCHEDULE_BY_BUNCH <name_of_bunch> id")
