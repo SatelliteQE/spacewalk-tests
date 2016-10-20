@@ -42,10 +42,10 @@ OTHERS_SCRIPTS=rpmfluff.py
 LOCAL_PY_SCRIPTS=manage-ak.py \
                manage-channel.py \
                manage-config.py \
-               manage-custom-info.py \
+               manage-custominfo.py \
                manage-events.py \
                manage-errata.py \
-               manage-ks.py manage-misc.py \
+               manage-ks.py \
                manage-org.py manage-package.py \
                manage-proxy.py \
                manage-scap.py \
@@ -60,17 +60,7 @@ LOCAL_PY_SCRIPTS=manage-ak.py \
                manage-sync-master.py \
                manage-custominfo.py \
                manage-search.py \
-               helper-unregister.py \
-               helper-gui.py \
-               helper-rpm-packages.py \
-               smqa_json.py pexpect.py pxssh.py selenium_old.py sshHelper.py wuiHelper.py \
-               smqa_misc.py satHelper.py reporting_helper.py \
-               taskomatic_runs.py \
-               http_client.py \
-               quartz_reinitialize.py \
-               helper-csv-if-x-is-y-print-z.py \
-               getApiVersion.py \
-               helper-http.py
+               taskomatic_runs.py
 LOCAL_BASH_SCRIPTS=rpm_verify_lib.sh \
                reporting.sh \
                helper-wait-for-metadata.sh \
