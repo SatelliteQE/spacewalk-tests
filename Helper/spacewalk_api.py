@@ -70,7 +70,7 @@ class Spacewalk:
 
     def call(self, method, *args):
         conv_params = []
-        method_all = False
+        method_exist = False
 
         m = ".".join(method.split(".")[:-1])
         methods = self.client.api.getApiNamespaceCallList(self.key, m)
@@ -79,17 +79,19 @@ class Spacewalk:
         # for taskomatic api call dosn't exist documentation
             param_args = []
             for key, it in methods.items():
-                if key.startswith(method):
-                    method_all = key
-                    params = it["parameters"][1:]
+                params = it["parameters"][1:]
+                if method == "%s.%s" % (m, it["name"]) and len(args) == len(params):
+                    method_exist = key
                     logging.debug("# %s %s" % (method, params))
-                    if len(args) == len(params):
-                        param_args.append([args, params])
-            if not method_all:
+                    param_args.append([args, params])
+            if not method_exist:
                 print("All methods: ", [it[0] for it in methods.items()])
                 raise Exception("method %s doesn't exist" % method)
                 return
 
+            # FIXME choose first params of method
+            # maybe more then one can exists
+            args, params = param_args[0]
             for value, convert in zip(args, params):
                 logging.debug("# \t %s -> %s" % (value, convert))
                 if convert == "int":
