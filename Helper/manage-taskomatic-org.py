@@ -42,83 +42,81 @@ class TaskomaticOrg(Spacewalk):
                     print "%s %s ;" % (field_name, bunches[field_name]),
                 print
         else:
-            if arg == "templates" or arg == "name" or arg == "description":
+            if arg in ("templates", "name", "description"):
                 for bunches in list:
                     print bunches[arg]
             else:
-                print "!!!!!%s is not defined!!!!\nuse only templates , name , description" % arg
+                self.log.error("!!!!!%s is not defined!!!!\nuse only templates , name , description" % arg)
                 return 101
         return True
 
     def list_all_schedule(self, arg):
+        ARGS_ENABLE = ("data_map", "active_till", "active_from", "bunch", "id", "job_label", "cron_expr")
         list = self.call("taskomatic.org.listAllSchedules")
         if arg is None:
             for item in list:
-                print
-                print
+                print("\n")
                 for field_name in item:
                     print "%s = %s;" % (field_name, item[field_name]),
         else:
-            if arg == "data_map" or arg == "active_till" or arg == "active_from" or arg == "bunch" or arg == "id" or arg == "job_label" or arg == "cron_expr":
+            if arg in ARGS_ENABLE:
                 for item in list:
                     print item[arg]
             else:
-                print "!!!!!%s is not defined!!!!\nuse only data_map , active_till , active_from , bunch , id , job_label" % arg
+                self.log.error("!!!!!%s is not defined!!!!\nuse only data_map , active_till , active_from , bunch , id , job_label" % arg)
                 return 101
         return True
 
-    def list_active_schedule(self, arg):
-        list = self.call("taskomatic.org.listActiveSchedules")
+    def list_active_schedule(self, arg=None):
+        schedules = self.call("taskomatic.org.listActiveSchedules")
+        ARGS_ENABLE = ("data_map", "cron_expr", "active_from", "bunch", "id", "job_label")
         if arg is None:
-            for item in list:
-                print
-                print
+            for item in schedules:
+                print("\n")
                 for field_name in item:
                     print "%s = %s;" % (field_name, item[field_name]),
         else:
-            if arg == "data_map" or arg == "cron_expr" or arg == "active_from" or arg == "bunch" or arg == "id" or arg == "job_label":
-                for item in list:
+            if arg in ARGS_ENABLE:
+                for item in schedules:
                     print item[arg]
             else:
-                print "!!!!!%s is not defined!!!!\nuse only data_map , cron_expr , active_from , bunch , id , job_label" % arg
+                self.log.error("!!!!!%s is not defined!!!!\nuse only %s" % (arg, " ".ARGS_ENABLE))
                 return 101
         return True
 
-    def list_active_schedule_by_bunch(self, bunch, arg):
+    def list_active_schedule_by_bunch(self, bunch, arg=None):
         if bunch is None:
-            print "Error: Specify bunch name in parameter  !!!! "
-            print "try: ******** LIST_BUNCH name"
+            self.log.error("Error: Specify bunch name in parameter  !!!! ")
+            self.log.error("try: ******** LIST_BUNCH name")
             return 101
 
-        list = self.call("taskomatic.org.listActiveSchedulesByBunch", bunch)
-
+        schedules = self.call("taskomatic.org.listActiveSchedulesByBunch", bunch)
+        ARGS_ENABLE = ("data_map", "cron_expr", "active_from", "bunch", "id", "job_label")
         if arg is None:
-            for item in list:
-                print
-                print
+            for item in schedules:
+                print("\n")
                 for field_name in item:
                     print "%s = %s;" % (field_name, item[field_name]),
         else:
-            if arg == "data_map" or arg == "cron_expr" or arg == "active_from" or arg == "bunch" or arg == "id" or arg == "job_label":
-                for item in list:
+            if arg in ARGS_ENABLE:
+                for item in schedules:
                     print item[arg]
             else:
-                print "!!!!!%s is not defined!!!!\nuse only data_map , cron_expr , active_from , bunch , id , job_label" % bunch
+                self.log.error("!!!!!%s is not defined!!!!\nuse only data_map , cron_expr , active_from , bunch , id , job_label" % bunch)
                 return 101
         return True
 
-    def list_schedule_org_run(self, run_id, arg):
+    def list_schedule_org_run(self, run_id, arg=None):
         if run_id is None:
-            print "Error: Specify some RUN ID in parameter  !!!! "
-            print "ID is from : ****** LIST_ACTIVE_SCHEDULE_BY_BUNCH <name_of_bunch> id"
+            self.log.error("Error: Specify some RUN ID in parameter  !!!! ")
+            self.log.error("ID is from : ****** LIST_ACTIVE_SCHEDULE_BY_BUNCH <name_of_bunch> id")
             return 101
 
         list = self.call("taskomatic.org.listScheduleRuns", int(run_id))
         if arg is None:
             #     print list
             for item in list:
-                print
-                print
+                print("\n")
                 for field_name in item:
                     print "%s = %s;" % (field_name, item[field_name]),
         else:
@@ -150,11 +148,11 @@ class TaskomaticOrg(Spacewalk):
         # (String bunchName, String jobLabel, Date startTime, Date endTime,
         # String cronExpression, Map params)
         if params is None:
-            print "error, use:"
-            print "taskomatic.org.scheduleBunch(String bunchName, String jobLabel, Date startTime, Date endTime, String cronExpression, Map params)"
-            print "cmd for date now=date +%Y%m%dT%H:%m:%S"
-            print "currently supported syntax:"
-            print "taskomatic.org.scheduleBunch(String bunchName, String jobLabel, String cronExpression, Map params)"
+            self.log.error("error, use:")
+            self.log.error("taskomatic.org.scheduleBunch(String bunchName, String jobLabel, Date startTime, Date endTime, String cronExpression, Map params)")
+            self.log.error("cmd for date now=date +%Y%m%dT%H:%m:%S")
+            self.log.error("currently supported syntax:")
+            self.log.error("taskomatic.org.scheduleBunch(String bunchName, String jobLabel, String cronExpression, Map params)")
             return 101
         else:
             #    now = datetime.datetime.now()
@@ -177,13 +175,13 @@ class TaskomaticOrg(Spacewalk):
 
     def unschedule_org_bunch_run(self, job_label):
         if job_label is None:
-            print "error, use:"
-            print "taskomatic.org.unscheduleBunch(String jobLabel)"
+            self.log.error("error, use:")
+            self.log.error("taskomatic.org.unscheduleBunch(String jobLabel)")
             return 101
         print self.call("taskomatic.org.unscheduleBunch", job_label)
         return True
 
-    def interpret_param(bunch, param):
+    def interpret_param(self, bunch, param=None):
         # result = {'channel_id': '161'}
         # result = {'list':'true'}
         # result = {'cobbler':'sync'}
