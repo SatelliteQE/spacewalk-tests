@@ -86,29 +86,29 @@ class Organization(Spacewalk):
 
         for org_data in self.call("org.trusts.listTrusts", int(org)):
             if org_data['trustEnabled']:
-                print "%s trusts to %s (%s)" % (org, org_data['orgId'], org_data['orgName'])
+                print("%s trusts to %s (%s)" % (org, org_data['orgId'], org_data['orgName']))
         return True
 
     def details_trust(self, org):
         details = self.call("org.trusts.getDetails", int(org))
-        print "created:", details["created"]
-        print "trusted_since:", details["trusted_since"]
-        print "channels_provided:", details["channels_provided"]
-        print "channels_consumed:", details["channels_consumed"]
-        print "systems_migrated_to:", details["systems_migrated_to"]
-        print "systems_migrated_from:", details["systems_migrated_from"]
+        print("created:", details["created"])
+        print("trusted_since:", details["trusted_since"])
+        print("channels_provided:", details["channels_provided"])
+        print("channels_consumed:", details["channels_consumed"])
+        print("systems_migrated_to:", details["systems_migrated_to"])
+        print("systems_migrated_from:", details["systems_migrated_from"])
         return True
 
     def list_channels_consumed(self, org):
         channels = self.call("org.trusts.listChannelsConsumed", int(org))
         for ch in channels:
-            print ch
+            print(ch)
         return 0
 
     def list_channels_provided(self, org):
         channels = client.org.trusts.listChannelsProvided(key, int(org))
         for ch in channels:
-            print ch
+            print(ch)
         return 0
 
     def migrate_system(self, org, org_admin, org_to, system_id):
@@ -116,17 +116,17 @@ class Organization(Spacewalk):
         org_to = int(org_admin)
         # returns array of servers migrated
         ret = self.call("org.migrateSystems"(org_to, (system_id,)))
-        print ret
+        print(ret)
         return len(ret) - 1
 
     def get_mine_org_id(self, user):
         ret = self.call("user.getDetails"(user))
-        print ret['org_id']
+        print(ret['org_id'])
         return 0
 
     def get_org_info(self, org):
         for k, v in self.call("org.getdetails", int(org)).iteritems():
-            print '%s: %s' % (k, v)
+            print('%s: %s' % (k, v))
         return 0
 
     def run(self):
