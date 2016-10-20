@@ -59,8 +59,7 @@ LOCAL_PY_SCRIPTS=manage-ak.py \
                manage-sync-slave.py \
                manage-sync-master.py \
                manage-custominfo.py \
-               manage-search.py \
-               taskomatic_runs.py
+               manage-search.py
 LOCAL_BASH_SCRIPTS=rpm_verify_lib.sh \
                reporting.sh \
                helper-wait-for-metadata.sh \
