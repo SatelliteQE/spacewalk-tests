@@ -23,3 +23,4 @@ def build_all():
         run("mkdir -p %s; for it in $( find ./ -name 'spacewalk-test*.rpm'); do mv $it %s; done" % (repo_path, repo_path))
         run("createrepo %s" % repo_path)
         run("dnf config-manager --add %s && dnf repolist" % repo_path)
+        run("echo 'gpgcheck=0' >> /etc/yum.repos.d/var_repos_beaker-test.repo")
