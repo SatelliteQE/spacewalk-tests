@@ -89,7 +89,6 @@ LOCAL_BASH_SCRIPTS=rpm_verify_lib.sh \
                helper-rhn-satellite.sh \
                helper-satellite-sync.sh \
                helper-rhn-satellite-activate.sh \
-               helper-taskomatic.py \
                helper-up2date-cert-to-rhnpushrc.sh \
                helper-sm-reg.sh \
                helper-get-updater.sh \
