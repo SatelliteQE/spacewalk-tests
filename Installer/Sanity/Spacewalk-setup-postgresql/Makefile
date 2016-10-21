@@ -51,4 +51,5 @@ $(METADATA): Makefile
 	@echo "Architectures: i386 x86_64" >> $(METADATA)
 	@echo "Requires:      tcpdump wget" >> $(METADATA)
 	@echo "RhtsRequires:  test(/CoreOS/Spacewalk/Helper)" >> $(METADATA) 
+	@echo "RhtsRequires:  tcpdump wget" >> $(METADATA)
 	rhts-lint $(METADATA)
