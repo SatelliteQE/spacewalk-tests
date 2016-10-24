@@ -222,7 +222,11 @@ class YumRepos(Spacewalk):
         """ main function which run method """
         method = self.getMethod()
         fce = getattr(self, method)
-        return fce(*self.argv[1:])
+        kwargs = {}
+        for arg in self.argv[1:]:
+            (param, value) = arg.split('=')
+            kwargs[param] = value
+        return fce(kwargs)
 
 if __name__ == "__main__":
     main = YumRepos(*sys.argv[1:])
