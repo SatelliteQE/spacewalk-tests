@@ -48,7 +48,7 @@ from spacewalk_api import Spacewalk
 class Abrt(Spacewalk):
     """docstring for Abrt"""
 
-    def getCrashesByUuid(self, uuid, param_key=None):
+    def getcrashesbyuuid(self, uuid, param_key=None):
         """
         @summary: 'getCrashesByUuid' Create a crash note.
         """
@@ -60,7 +60,7 @@ class Abrt(Spacewalk):
             print res
         return True
 
-    def getCrashOverview(self, param_key=None):
+    def getcrashoverview(self, param_key=None):
         """
         @summary: 'getCrashOverview'
         """
@@ -72,7 +72,7 @@ class Abrt(Spacewalk):
             print res
         return True
 
-    def createCrashNote(self, crashId, note_subject, note_details):
+    def createcrashnote(self, crashId, note_subject, note_details):
         """
         @summary: 'createCrashNote' Create a crash note.
         @param crashId
@@ -83,7 +83,7 @@ class Abrt(Spacewalk):
                         note_subject, note_details)
         return True
 
-    def deleteCrashNote(self, noteId):
+    def deletecrashnote(self, noteId):
         """
         @summary: 'deleteCrashNote' Delete a crash note.
         @param crashNoteId
@@ -92,7 +92,7 @@ class Abrt(Spacewalk):
         print self.call("system.crash.deleteCrashNote", int(noteId))
         return True
 
-    def getCrashNotesForCrash(self, crashId, param_key=None):
+    def getcrashnotesforcrash(self, crashId, param_key=None):
         """
         @summary: 'getCrashNotesForCrash' List crash notes for crash.
         @param crashNoteId
@@ -107,7 +107,7 @@ class Abrt(Spacewalk):
             print res
         return True
 
-    def isCrashfileUploadEnabled(self, orgId):
+    def iscrashfileuploadenabled(self, orgId):
         """
         @summary: 'isCrashfileUploadEnabled' Get the status of crash file upload settings for the given organization. Returns true if enabled, false otherwise.
         @param orgId
@@ -115,7 +115,7 @@ class Abrt(Spacewalk):
         print self.call("org.isCrashfileUploadEnabled", int(orgId))
         return True
 
-    def isCrashReportingEnabled(self, orgId):
+    def iscrashreportingenabled(self, orgId):
         """
         @summary: 'isCrashReportingEnabled' Get the status of crash reporting settings for the given organization. Returns true if enabled, false otherwise.
         @param orgId
@@ -123,7 +123,7 @@ class Abrt(Spacewalk):
         print self.call("org.isCrashReportingEnabled", int(orgId))
         return True
 
-    def setCrashfileUpload(self, orgId, enable):
+    def setcrashfileupload(self, orgId, enable):
         """
         @summary: 'setCrashfileUpload' Set the status of crash file upload settings for the given organization. Modifying the settings is possible as long as crash reporting is enabled.
         @param orgId
@@ -132,7 +132,7 @@ class Abrt(Spacewalk):
         print self.call("org.setCrashfileUpload", int(orgId), eval(enable))
         return True
 
-    def setCrashReporting(self, orgId, enable):
+    def setcrashreporting(self, orgId, enable):
         """
         @summary: 'setCrashReporting' Set the status of crash reporting settings for the given organization. Disabling crash reporting will automatically disable crash file upload.
         @param orgId
@@ -141,7 +141,7 @@ class Abrt(Spacewalk):
         print self.call("org.setCrashReporting", int(orgId), eval(enable))
         return True
 
-    def getCrashFileSizeLimit(self, orgId):
+    def getcrashfilesizelimit(self, orgId):
         """
         @summary: 'getCrashFileSizeLimit' action method. Get the organization wide crash file size limit. The limit value must i a non-negative number, zero means no limit.
         @param orgId
@@ -149,7 +149,7 @@ class Abrt(Spacewalk):
         print self.call("org.getCrashFileSizeLimit", int(orgId))
         return True
 
-    def setCrashFileSizeLimit(self, orgId, limit):
+    def setcrashfilesizelimit(self, orgId, limit):
         """
         @summary: 'setCrashFileSizeLimit' action method. Set the organization wide crash file size limit. The limit value must be non-negative, zero means no limit.
         @param orgId
@@ -157,14 +157,14 @@ class Abrt(Spacewalk):
         """
         return self.call("org.setCrashFileSizeLimit", int(orgId), int(limit))
 
-    def deleteCrash(self, crashId):
+    def deletecrash(self, crashId):
         """
         @summary: 'deleteCrash' action method. Delete a crash with given crash id.
         @param crashId
         """
         return self.call("system.crash.deleteCrash", int(crashId))
 
-    def getCrashFile(self, crashFileId):
+    def getcrashfile(self, crashFileId):
         """
         @summary: 'getCrashFile' action method. Download a crash file.
         @param crashFileId
@@ -172,7 +172,7 @@ class Abrt(Spacewalk):
         print self.call("system.crash.getCrashFile", int(crashFileId))
         return True
 
-    def getCrashFileUrl(self, crashFileId):
+    def getcrashfileurl(self, crashFileId):
         """
         @summary: 'getCrashFileUrl' action method. Get a crash file download url.
         @param crashFileId
@@ -180,7 +180,7 @@ class Abrt(Spacewalk):
         print self.call("system.crash.getCrashFileUrl", int(crashFileId))
         return True
 
-    def getCrashCountInfo(self, serverId, param_key=None):
+    def getcrashcountinfo(self, serverId, param_key=None):
         """
         @summary: 'getCrashCountInfo' action method. Return crash count information.
         @param serverId
@@ -192,7 +192,7 @@ class Abrt(Spacewalk):
             print res
         return True
 
-    def listSystemCrashFiles(self, crashId, only_uploaded_files=False,
+    def listsystemcrashfiles(self, crashId, only_uploaded_files=False,
                              param_key=None):
         """
         @summary: 'listSystemCrashFiles' action method. Return list of crash files for given crash id.
@@ -215,7 +215,7 @@ class Abrt(Spacewalk):
             print res
         return True
 
-    def listSystemCrashes(self, serverId, param_key=None):
+    def listsystemcrashes(self, serverId, param_key=None):
         """
         @summary: 'listSystemCrashes' action method. Return list of software crashes for a system.
         @param serverId

@@ -170,7 +170,7 @@ class Config(Spacewalk):
                        kwargs['path'])
         return True
 
-    def channelExists(self, kwargs):
+    def channelexists(self, kwargs):
         """
         @summary: channelExists action method. Checks if config channel exists.
         @param channelLabel
@@ -179,7 +179,7 @@ class Config(Spacewalk):
         print self.call("configchannel.channelExists", kwargs['channelLabel'])
         return True
 
-    def deployAllSystems(self, kwargs):
+    def deployallsystems(self, kwargs):
         """
         @summary: 'deployAllSystems' action method. Schedule a configuration deployment for all systems subscribed to a particular configuration channel. .
         @param channelLabel
@@ -188,7 +188,7 @@ class Config(Spacewalk):
                         kwargs['channelLabel'])
         return True
 
-    def listGlobals(self, kwargs):
+    def listglobals(self, kwargs):
 
         chann_info = self.call("configchannel.listGlobals")
         for i in range(len(chann_info)):
@@ -199,7 +199,7 @@ class Config(Spacewalk):
                                                chann_info[i]['description'])
         return True
 
-    def listFiles(self, kwargs):
+    def listfiles(self, kwargs):
         """
         @summary: 'listFiles' action method. Return a list of files in a channel.
         @param channelLabel
@@ -212,7 +212,7 @@ class Config(Spacewalk):
                                      file_list[i]['last_modified'])
         return True
 
-    def listSubscribedSystems(self, kwargs):
+    def listsubscribedsystems(self, kwargs):
         """
         @summary: 'listSubscribedSystems' action method. Return a list of systems subscribed to a configuration channel.
         @param string channelLabel
@@ -224,7 +224,7 @@ class Config(Spacewalk):
             print "%s | %s " % (system_list[i]['name'], system_list[i]['id'])
         return True
 
-    def lookupChannelInfo(self, kwargs):
+    def lookupchannelinfo(self, kwargs):
         """
         @summary: 'lookupChannelInfo' action method. Lists details on a list channels given their channel labels.
         @param string channelLabel
@@ -239,7 +239,7 @@ class Config(Spacewalk):
                                           chann_info[i]['label'])
         return True
 
-    def lookupFileInfo(self, kwargs):
+    def lookupfileinfo(self, kwargs):
         """
         @summary: 'lookupFileInfo' action method. Given a list of paths and a channel, returns details about the latest revisions of the paths.
         @param string channelLabel
@@ -275,7 +275,7 @@ class Config(Spacewalk):
                                            chann_info['description'])
         return True
 
-    def listGlobals(self, kwargs):
+    def listglobals(self, kwargs):
         """
         @summary: 'listGlobals' action method. List all the global config channels accessible to the user.
         """

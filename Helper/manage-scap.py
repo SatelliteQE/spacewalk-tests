@@ -89,7 +89,7 @@ class Scap(Spacewalk):
                            server_ids, path, " ".join(args)))
         return True
 
-    def setPolicyForScapResultDeletion(self, flag, org_id,
+    def setpolicyforscapresultdeletion(self, flag, org_id,
                                        retention_period=-1):
         if retention_period == -1:
             self.call("org.setPolicyForScapResultDeletion",
@@ -99,7 +99,7 @@ class Scap(Spacewalk):
                       {"enabled": flag, "retention_period": retention_period})
         return True
 
-    def setPolicyForScapFileUpload(self, flag, org_id, size_limit=-1):
+    def setpolicyforscapfileupload(self, flag, org_id, size_limit=-1):
         if size_limit == -1:
             self.call("org.setPolicyForScapFileUpload",
                       org_id, {"enabled": flag})
@@ -108,21 +108,21 @@ class Scap(Spacewalk):
                       org_id, {"enabled": flag, "size_limit": size_limit})
         return True
 
-    def getPolicyForScapResultDeletion(self, org_id, keys):
+    def getpolicyforscapresultdeletion(self, org_id, keys):
         res = self.call("org.getPolicyForScapResultDeletion", org_id)
         keys = keys.strip().split()
         for k in keys:
             print "%s:%s" % (k, res[k])
         return True
 
-    def getPolicyForScapFileUpload(self, org_id, keys):
+    def getpolicyforscapfileupload(self, org_id, keys):
         res = self.call("org.getPolicyForScapFileUpload", org_id)
         keys = keys.strip().split()
         for k in keys:
             print "%s:%s" % (k, res[k])
         return True
 
-    def deleteXccdfScan(self, xids):
+    def deletexccdfscan(self, xids):
         for xid in xids:
             print self.call("system.scap.deleteXccdfScan", xid)
         return True

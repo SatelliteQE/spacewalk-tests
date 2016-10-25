@@ -70,7 +70,7 @@ from spacewalk_api import Spacewalk
 class YumRepos(Spacewalk):
     """Class for handling Sync Yum repository via API"""
 
-    def addRepoFilter(self, kwargs):
+    def addrepofilter(self, kwargs):
         """
         @summary: 'addRepoFilter'
         """
@@ -79,7 +79,7 @@ class YumRepos(Spacewalk):
                          'flag': kwargs['filter_type']})
         return True
 
-    def removeRepoFilter(self, kwargs):
+    def removerepofilter(self, kwargs):
         """
         @summary: 'removeRepoFilter'
         """
@@ -88,7 +88,7 @@ class YumRepos(Spacewalk):
                                                'flag': kwargs['filter_type']})
         return True
 
-    def listRepoFilters(self, kwargs):
+    def listrepofilters(self, kwargs):
         """
         @summary: 'listRepoFilter'
         """
@@ -96,7 +96,7 @@ class YumRepos(Spacewalk):
                         kwargs['repo_label'])
         return True
 
-    def clearRepoFilters(self, kwargs):
+    def clearrepofilters(self, kwargs):
         """
         @summary: 'clearRepoFilter'
         """
@@ -104,7 +104,7 @@ class YumRepos(Spacewalk):
                         kwargs['repo_label'])
         return True
 
-    def createRepo(self, kwargs):
+    def createrepo(self, kwargs):
         """
         @summary: 'createRepo' action method. Create new repository.
         @param RepoName
@@ -117,7 +117,7 @@ class YumRepos(Spacewalk):
                         kwargs['RepoType'], kwargs['RepoUrl'])
         return True
 
-    def updateRepoUrl(self, kwargs):
+    def updaterepourl(self, kwargs):
         """
         @summary: 'updateRepoUrl' action method. Create Update repository URL.
         @param RepoName
@@ -127,7 +127,7 @@ class YumRepos(Spacewalk):
                         kwargs['RepoName'], kwargs['RepoUrl'])
         return True
 
-    def getRepoDetails(self, kwargs):
+    def getrepodetails(self, kwargs):
         """
         @summary: 'getRepoDetails' action method. Get repository details.
         @param RepoName
@@ -135,7 +135,7 @@ class YumRepos(Spacewalk):
         print self.call("channel.software.getRepoDetails", kwargs['RepoName'])
         return True
 
-    def listUserRepos(self, kwargs):
+    def listuserrepos(self, kwargs):
         """
         @summary: 'listUserRepos' action method. List all repositories available for the user.
         """
@@ -143,7 +143,7 @@ class YumRepos(Spacewalk):
         print self.call("channel.software.listUserRepos")
         return True
 
-    def associateRepo(self, kwargs):
+    def associaterepo(self, kwargs):
         """
         @summary: 'associateRepo' action method. Associate repository to custom channel.
         @param ChannelName
@@ -153,7 +153,7 @@ class YumRepos(Spacewalk):
                         kwargs['ChannelName'], kwargs['RepoName'])
         return True
 
-    def scheduleSyncRepo(self, kwargs):
+    def schedulesyncrepo(self, kwargs):
         """
         @summary: 'scheduleSyncRepo' action method. Schedule repo sync.
         @param ChannelName
@@ -163,7 +163,7 @@ class YumRepos(Spacewalk):
                         kwargs['scheduleTime'])
         return True
 
-    def SyncRepoNow(self, kwargs):
+    def syncreponow(self, kwargs):
         """
         @summary: 'SyncRepoNow' action method. Schedule repo sync.
         @param ChannelName
@@ -171,7 +171,7 @@ class YumRepos(Spacewalk):
         print self.call("channel.software.syncRepo", kwargs['ChannelName'])
         return True
 
-    def getRepoSyncCronExpression(self, kwargs):
+    def getreposynccronexpression(self, kwargs):
         """
         @summary: 'getRepoSyncCronExpression' action method. Get Repo Sync Cron Expression.
         @param ChannelName
@@ -180,7 +180,7 @@ class YumRepos(Spacewalk):
                         kwargs['ChannelName'])
         return True
 
-    def listChannelRepos(self, kwargs):
+    def listchannelrepos(self, kwargs):
         """
         @summary: 'listChannelRepos' action method. List Channel Repositories.
         @param ChannelName
@@ -189,7 +189,7 @@ class YumRepos(Spacewalk):
                         kwargs['ChannelName'])
         return True
 
-    def listAllPackages(self, kwargs):
+    def listallpackages(self, kwargs):
         """
         @summary: 'listAllPackages' action method. List all packages in a channel.
         @param ChannelName
@@ -201,7 +201,7 @@ class YumRepos(Spacewalk):
             print package['name']
         return True
 
-    def disassociateRepo(self, kwargs):
+    def disassociaterepo(self, kwargs):
         """
         @summary: 'disassociateRepo' action method. Disassociate Reposiory from a custom channnel.
         @param ChannelName
@@ -211,7 +211,7 @@ class YumRepos(Spacewalk):
                         kwargs['ChannelName'], kwargs['RepoName'])
         return True
 
-    def removeRepo(self, kwargs):
+    def removerepo(self, kwargs):
         """
         @summary: 'removeRepo' action method. Remove Repository from Satellite.
         @param RepoName
