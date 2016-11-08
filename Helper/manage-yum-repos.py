@@ -217,6 +217,7 @@ class YumRepos(Spacewalk):
         @param RepoName
         """
         print self.call("channel.software.removeRepo", kwargs['RepoName'])
+        return True
 
     def run(self):
         """ main function which run method """
